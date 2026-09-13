@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         if(name.equals("admin") && password.equals("admin123")){
             Toast.makeText(MainActivity.this, "Welcome Sir", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(MainActivity.this, "Please check your logins and try again", Toast.LENGTH_SHORT).show());
+            Toast.makeText(MainActivity.this, "Please check your logins and try again", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(MainActivity.this, "Welcome User ", Toast.LENGTH_SHORT).show();
+
 
     }
 
