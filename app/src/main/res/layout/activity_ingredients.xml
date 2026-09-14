@@ -88,6 +88,8 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="35dp"
         android:background="#FFFFFF"
+        android:clickable="true"
+        android:cursorVisible="false"
         android:focusable="false"
         android:hint="Expiry Date (Optional)"
         android:paddingStart="15dp"

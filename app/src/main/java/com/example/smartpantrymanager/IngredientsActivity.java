@@ -47,7 +47,7 @@ public class IngredientsActivity extends AppCompatActivity {
         // Select expiry date
         editExpiryDate.setOnClickListener(v -> selectDate());
 
-        // Save Ingredient button
+        // Save Ingredient
         btnSaveIngredient.setOnClickListener(v -> saveIngredient());
     }
 
@@ -80,19 +80,23 @@ public class IngredientsActivity extends AppCompatActivity {
         double quantityValue;
 
         try {
+
             quantityValue = Double.parseDouble(quantity);
+
         } catch(NumberFormatException e){
+
             editQuantity.setError("Enter a valid quantity");
             return;
         }
 
-        // Check quantity is greater than zero
+        // Quantity cannot be zero
         if(quantityValue <= 0){
+
             editQuantity.setError("Quantity must be greater than 0");
             return;
         }
 
-        // Database will be connected next
+        // Database will be added next
         Toast.makeText(IngredientsActivity.this, "Ingredient details accepted", Toast.LENGTH_SHORT).show();
     }
 

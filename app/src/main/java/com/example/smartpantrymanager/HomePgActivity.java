@@ -3,7 +3,6 @@ package com.example.smartpantrymanager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,6 @@ public class HomePgActivity extends AppCompatActivity {
     // Home page components
     MaterialToolbar topAppBar;
     TextView txtHello;
-    EditText editSearch;
     MaterialCardView cardPantry;
     MaterialCardView cardRecipes;
     MaterialCardView cardSuggested;
@@ -39,18 +37,17 @@ public class HomePgActivity extends AppCompatActivity {
         // Connect Java to XML
         topAppBar = findViewById(R.id.topAppBar);
         txtHello = findViewById(R.id.txtHello);
-        editSearch = findViewById(R.id.editSearch);
         cardPantry = findViewById(R.id.cardPantry);
         cardRecipes = findViewById(R.id.cardRecipes);
         cardSuggested = findViewById(R.id.cardSuggested);
         btnViewSuggested = findViewById(R.id.btnViewSuggested);
         btnAdd = findViewById(R.id.btnAdd);
 
-        // Get username from login page
+        // Get username from Login page
         String username = getIntent().getStringExtra("username");
 
         // Show username on Home page
-        if(username != null){
+        if(username != null && !username.isEmpty()){
             topAppBar.setTitle(username + "'s Pantry");
             txtHello.setText("Hello, " + username);
         } else {
@@ -80,7 +77,7 @@ public class HomePgActivity extends AppCompatActivity {
             Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
         });
 
-        // View Suggested Recipes button
+        // View Suggested Recipes
         btnViewSuggested.setOnClickListener(v -> {
             Toast.makeText(HomePgActivity.this, "Opening Suggested Recipes", Toast.LENGTH_SHORT).show();
         });
@@ -93,35 +90,38 @@ public class HomePgActivity extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            // Open My Pantry
+            // My Pantry
             if(id == R.id.menuPantry){
                 Toast.makeText(HomePgActivity.this, "My Pantry selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Open Recipes
+            // Recipes
             if(id == R.id.menuRecipes){
                 Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Open Suggested Recipes
+            // Suggested Recipes
             if(id == R.id.menuSuggestedRecipes){
                 Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Open Settings
+            // Settings
             if(id == R.id.menuSettings){
                 Toast.makeText(HomePgActivity.this, "Settings selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Logout user
+            // Logout
             if(id == R.id.menuLogout){
+
                 Intent intent = new Intent(HomePgActivity.this, MainActivity.class);
+
                 startActivity(intent);
                 finish();
+
                 return true;
             }
 
@@ -129,7 +129,7 @@ public class HomePgActivity extends AppCompatActivity {
         });
     }
 
-    // Shows Add Ingredient and Add Recipe options
+    // Shows Add Ingredient and Add Recipe
     private void addMenu(){
 
         String[] options = {"Add Ingredient", "Add Recipe"};
@@ -142,12 +142,15 @@ public class HomePgActivity extends AppCompatActivity {
 
             // Open Ingredients page
             if(which == 0){
+
                 Intent intent = new Intent(HomePgActivity.this, IngredientsActivity.class);
+
                 startActivity(intent);
             }
 
-            // Add Recipe option
+            // Add Recipe
             if(which == 1){
+
                 Toast.makeText(HomePgActivity.this, "Add Recipe selected", Toast.LENGTH_SHORT).show();
             }
         });

@@ -3,57 +3,32 @@ package com.example.smartpantrymanager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+public class MainActivity extends AppCompatActivity {
 
-public class HomePgActivity extends AppCompatActivity {
-
-    // Home page components
-    MaterialToolbar topAppBar;
-    TextView txtHello;
-    MaterialCardView cardPantry;
-    MaterialCardView cardRecipes;
-    MaterialCardView cardSuggested;
-    Button btnViewSuggested;
-    FloatingActionButton btnAdd;
+    // Login components
+    EditText editUsername;
+    EditText editPassword;
+    Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home_pg);
+        setContentView(R.layout.activity_main);
 
         // Connect Java to XML
-        topAppBar = findViewById(R.id.topAppBar);
-        txtHello = findViewById(R.id.txtHello);
-        cardPantry = findViewById(R.id.cardPantry);
-        cardRecipes = findViewById(R.id.cardRecipes);
-        cardSuggested = findViewById(R.id.cardSuggested);
-        btnViewSuggested = findViewById(R.id.btnViewSuggested);
-        btnAdd = findViewById(R.id.btnAdd);
-
-        // Get username from Login page
-        String username = getIntent().getStringExtra("username");
-
-        // Show username on Home page
-        if(username != null && !username.isEmpty()){
-            topAppBar.setTitle(username + "'s Pantry");
-            txtHello.setText("Hello, " + username);
-        } else {
-            topAppBar.setTitle("My Pantry");
-            txtHello.setText("Hello, User");
-        }
+        editUsername = findViewById(R.id.editUsername);
+        editPassword = findViewById(R.id.editPassword);
+        btnLogin = findViewById(R.id.btnLogin);
 
         // Adjust screen around system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -62,93 +37,45 @@ public class HomePgActivity extends AppCompatActivity {
             return insets;
         });
 
-        // My Pantry card
-        cardPantry.setOnClickListener(v -> {
-            Toast.makeText(HomePgActivity.this, "My Pantry selected", Toast.LENGTH_SHORT).show();
-        });
-
-        // Recipes card
-        cardRecipes.setOnClickListener(v -> {
-            Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
-        });
-
-        // Suggested Recipes card
-        cardSuggested.setOnClickListener(v -> {
-            Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
-        });
-
-        // Suggested Recipes button
-        btnViewSuggested.setOnClickListener(v -> {
-            Toast.makeText(HomePgActivity.this, "Opening Suggested Recipes", Toast.LENGTH_SHORT).show();
-        });
-
-        // Plus button
-        btnAdd.setOnClickListener(v -> addMenu());
-
-        // Three dot menu
-        topAppBar.setOnMenuItemClickListener(item -> {
-
-            int id = item.getItemId();
-
-            // Open My Pantry
-            if(id == R.id.menuPantry){
-                Toast.makeText(HomePgActivity.this, "My Pantry selected", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            // Open Recipes
-            if(id == R.id.menuRecipes){
-                Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            // Open Suggested Recipes
-            if(id == R.id.menuSuggestedRecipes){
-                Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            // Open Settings
-            if(id == R.id.menuSettings){
-                Toast.makeText(HomePgActivity.this, "Settings selected", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            // Logout
-            if(id == R.id.menuLogout){
-                Intent intent = new Intent(HomePgActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-
-            return false;
-        });
+        // Login button
+        btnLogin.setOnClickListener(v -> GUI());
     }
 
-    // Shows Add Ingredient and Add Recipe
-    private void addMenu(){
+    // Login validation
+    private void GUI(){
 
-        String[] options = {"Add Ingredient", "Add Recipe"};
+        String name = editUsername.getText().toString().trim();
+        String password = editPassword.getText().toString().trim();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomePgActivity.this);
+        // Check username
+        if(name.isEmpty()){
+            editUsername.setError("Enter username");
+            return;
+        }
 
-        builder.setTitle("What would you like to add?");
+        // Check password
+        if(password.isEmpty()){
+            editPassword.setError("Enter password");
+            return;
+        }
 
-        builder.setItems(options, (dialog, which) -> {
+        // Check login details
+        if(name.equals("admin") && password.equals("admin123")){
 
-            // Open Ingredients page
-            if(which == 0){
-                Intent intent = new Intent(HomePgActivity.this, IngredientsActivity.class);
-                startActivity(intent);
-            }
+            Toast.makeText(MainActivity.this, "Welcome Sir", Toast.LENGTH_SHORT).show();
 
-            // Add Recipe
-            if(which == 1){
-                Toast.makeText(HomePgActivity.this, "Add Recipe selected", Toast.LENGTH_SHORT).show();
-            }
-        });
+            // Open Home page
+            Intent intent = new Intent(MainActivity.this, HomePgActivity.class);
 
-        builder.show();
+            // Send username to Home page
+            intent.putExtra("username", name);
+
+            startActivity(intent);
+            finish();
+
+        } else {
+
+            Toast.makeText(MainActivity.this, "Please check your logins and try again", Toast.LENGTH_SHORT).show();
+        }
     }
 }
