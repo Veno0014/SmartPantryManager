@@ -58,7 +58,7 @@ public class HomePgActivity extends AppCompatActivity {
             txtHello.setText("Hello, User");
         }
 
-        // Adjust screen around phone system bars
+        // Adjust screen around system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -66,16 +66,24 @@ public class HomePgActivity extends AppCompatActivity {
         });
 
         // My Pantry card
-        cardPantry.setOnClickListener(v -> Toast.makeText(HomePgActivity.this, "My Pantry selected", Toast.LENGTH_SHORT).show());
+        cardPantry.setOnClickListener(v -> {
+            Toast.makeText(HomePgActivity.this, "My Pantry selected", Toast.LENGTH_SHORT).show();
+        });
 
         // Recipes card
-        cardRecipes.setOnClickListener(v -> Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show());
+        cardRecipes.setOnClickListener(v -> {
+            Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
+        });
 
         // Suggested Recipes card
-        cardSuggested.setOnClickListener(v -> Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show());
+        cardSuggested.setOnClickListener(v -> {
+            Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
+        });
 
         // View Suggested Recipes button
-        btnViewSuggested.setOnClickListener(v -> Toast.makeText(HomePgActivity.this, "Opening Suggested Recipes", Toast.LENGTH_SHORT).show());
+        btnViewSuggested.setOnClickListener(v -> {
+            Toast.makeText(HomePgActivity.this, "Opening Suggested Recipes", Toast.LENGTH_SHORT).show();
+        });
 
         // Plus button
         btnAdd.setOnClickListener(v -> addMenu());
@@ -132,9 +140,10 @@ public class HomePgActivity extends AppCompatActivity {
 
         builder.setItems(options, (dialog, which) -> {
 
-            // Add Ingredient option
+            // Open Ingredients page
             if(which == 0){
-                Toast.makeText(HomePgActivity.this, "Add Ingredient selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomePgActivity.this, IngredientsActivity.class);
+                startActivity(intent);
             }
 
             // Add Recipe option

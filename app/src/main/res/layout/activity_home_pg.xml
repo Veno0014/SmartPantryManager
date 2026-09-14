@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Allows the home page to scroll -->
+    <!-- Allows the page to scroll -->
     <ScrollView
         android:id="@+id/homeScroll"
         android:layout_width="0dp"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topAppBar">
 
-        <!-- Main page content -->
+        <!-- Main Home page -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="100dp">
 
-            <!-- Shows the logged in username -->
+            <!-- Logged in user -->
             <TextView
                 android:id="@+id/txtHello"
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:textColor="#555555"
                 android:textSize="16sp" />
 
-            <!-- Main page heading -->
+            <!-- Home page heading -->
             <TextView
                 android:id="@+id/txtHeading"
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <!-- Recipe search bar -->
+            <!-- Search Recipes -->
             <EditText
                 android:id="@+id/editSearch"
                 android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Quick Access cards -->
+            <!-- Quick Access Cards -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,11 +95,11 @@
                 android:orientation="horizontal"
                 android:weightSum="3">
 
-                <!-- My Pantry card -->
+                <!-- My Pantry Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPantry"
                     android:layout_width="0dp"
-                    android:layout_height="105dp"
+                    android:layout_height="90dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="14dp"
@@ -112,31 +112,25 @@
                         android:orientation="vertical"
                         android:padding="5dp">
 
+                        <!-- My Pantry Text -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🥫"
-                            android:textSize="26sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
                             android:gravity="center"
                             android:text="My Pantry"
                             android:textColor="#000000"
-                            android:textSize="13sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Recipes card -->
+                <!-- Recipes Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardRecipes"
                     android:layout_width="0dp"
-                    android:layout_height="105dp"
+                    android:layout_height="90dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
@@ -150,31 +144,25 @@
                         android:orientation="vertical"
                         android:padding="5dp">
 
+                        <!-- Recipes Text -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🍳"
-                            android:textSize="26sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
                             android:gravity="center"
                             android:text="Recipes"
                             android:textColor="#000000"
-                            android:textSize="13sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Suggested Recipes card -->
+                <!-- Suggested Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSuggested"
                     android:layout_width="0dp"
-                    android:layout_height="105dp"
+                    android:layout_height="90dp"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="14dp"
@@ -187,20 +175,14 @@
                         android:orientation="vertical"
                         android:padding="5dp">
 
+                        <!-- Suggested Text -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="⭐"
-                            android:textSize="26sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
                             android:gravity="center"
                             android:text="Suggested"
                             android:textColor="#000000"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -219,7 +201,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Suggested Recipe information card -->
+            <!-- Suggested Recipes Information -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardSuggestedRecipe"
                 android:layout_width="match_parent"

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".IngredientsActivity">
+
+    <!-- Page heading -->
+    <TextView
+        android:id="@+id/txtIngredientTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="Add Ingredient"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Ingredient Name -->
+    <EditText
+        android:id="@+id/editIngredientName"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="35dp"
+        android:background="#FFFFFF"
+        android:hint="Ingredient Name"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textColor="#000000"
+        android:textColorHint="#777777"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtIngredientTitle" />
+
+    <!-- Quantity -->
+    <EditText
+        android:id="@+id/editQuantity"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="35dp"
+        android:background="#FFFFFF"
+        android:hint="Quantity"
+        android:inputType="numberDecimal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textColor="#000000"
+        android:textColorHint="#777777"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editIngredientName" />
+
+    <!-- Unit -->
+    <EditText
+        android:id="@+id/editUnit"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="35dp"
+        android:background="#FFFFFF"
+        android:hint="Unit e.g. g, kg, ml, L, pieces"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textColor="#000000"
+        android:textColorHint="#777777"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editQuantity" />
+
+    <!-- Expiry Date -->
+    <EditText
+        android:id="@+id/editExpiryDate"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="35dp"
+        android:background="#FFFFFF"
+        android:focusable="false"
+        android:hint="Expiry Date (Optional)"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textColor="#000000"
+        android:textColorHint="#777777"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUnit" />
+
+    <!-- Save Ingredient -->
+    <Button
+        android:id="@+id/btnSaveIngredient"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="35dp"
+        android:text="Save Ingredient"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#6D4C41"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editExpiryDate" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
