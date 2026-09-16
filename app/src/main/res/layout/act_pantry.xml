@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".PantryAct">
+
+    <!-- Page Title -->
+    <TextView
+        android:id="@+id/txtPantryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="My Pantry"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Pantry List -->
+    <ListView
+        android:id="@+id/listPantry"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddIngredient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPantryTitle" />
+
+    <!-- Empty Pantry Message -->
+    <TextView
+        android:id="@+id/txtEmptyPantry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Your pantry is empty. Add an ingredient."
+        android:textColor="#666666"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listPantry"
+        app:layout_constraintEnd_toEndOf="@+id/listPantry"
+        app:layout_constraintStart_toStartOf="@+id/listPantry"
+        app:layout_constraintTop_toTopOf="@+id/listPantry" />
+
+    <!-- Add Ingredient Button -->
+    <Button
+        android:id="@+id/btnAddIngredient"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:text="Add Ingredient"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:backgroundTint="#6D4C41"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

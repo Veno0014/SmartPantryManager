@@ -43,11 +43,10 @@ public class HomePgActivity extends AppCompatActivity {
         btnViewSuggested = findViewById(R.id.btnViewSuggested);
         btnAdd = findViewById(R.id.btnAdd);
 
-        // Get username from Login page
+        // Get username from Login screen
         String username = getIntent().getStringExtra("username");
 
-        // Show username on Home page
-        if(username != null && !username.isEmpty()){
+        if(username != null && !username.isEmpty()) {
             topAppBar.setTitle(username + "'s Pantry");
             txtHello.setText("Hello, " + username);
         } else {
@@ -62,17 +61,18 @@ public class HomePgActivity extends AppCompatActivity {
             return insets;
         });
 
-        // My Pantry card
+        // Open My Pantry
         cardPantry.setOnClickListener(v -> {
-            Toast.makeText(HomePgActivity.this, "My Pantry selected", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomePgActivity.this, PantryAct.class);
+            startActivity(intent);
         });
 
-        // Recipes card
+        // Recipes
         cardRecipes.setOnClickListener(v -> {
             Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
         });
 
-        // Suggested Recipes card
+        // Suggested Recipes
         cardSuggested.setOnClickListener(v -> {
             Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
         });
@@ -82,46 +82,44 @@ public class HomePgActivity extends AppCompatActivity {
             Toast.makeText(HomePgActivity.this, "Opening Suggested Recipes", Toast.LENGTH_SHORT).show();
         });
 
-        // Plus button
+        // Add button
         btnAdd.setOnClickListener(v -> addMenu());
 
-        // Three dot menu
+        // Toolbar menu
         topAppBar.setOnMenuItemClickListener(item -> {
 
             int id = item.getItemId();
 
-            // My Pantry
-            if(id == R.id.menuPantry){
-                Toast.makeText(HomePgActivity.this, "My Pantry selected", Toast.LENGTH_SHORT).show();
+            // Open My Pantry
+            if(id == R.id.menuPantry) {
+                Intent intent = new Intent(HomePgActivity.this, PantryAct.class);
+                startActivity(intent);
                 return true;
             }
 
             // Recipes
-            if(id == R.id.menuRecipes){
+            if(id == R.id.menuRecipes) {
                 Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
             // Suggested Recipes
-            if(id == R.id.menuSuggestedRecipes){
+            if(id == R.id.menuSuggestedRecipes) {
                 Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
             // Settings
-            if(id == R.id.menuSettings){
+            if(id == R.id.menuSettings) {
                 Toast.makeText(HomePgActivity.this, "Settings selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
             // Logout
-            if(id == R.id.menuLogout){
-
+            if(id == R.id.menuLogout) {
                 Intent intent = new Intent(HomePgActivity.this, MainActivity.class);
-
                 startActivity(intent);
                 finish();
-
                 return true;
             }
 
@@ -129,8 +127,8 @@ public class HomePgActivity extends AppCompatActivity {
         });
     }
 
-    // Shows Add Ingredient and Add Recipe
-    private void addMenu(){
+    // Add menu
+    private void addMenu() {
 
         String[] options = {"Add Ingredient", "Add Recipe"};
 
@@ -140,17 +138,14 @@ public class HomePgActivity extends AppCompatActivity {
 
         builder.setItems(options, (dialog, which) -> {
 
-            // Open Ingredients page
-            if(which == 0){
-
+            // Add Ingredient
+            if(which == 0) {
                 Intent intent = new Intent(HomePgActivity.this, IngredientsActivity.class);
-
                 startActivity(intent);
             }
 
             // Add Recipe
-            if(which == 1){
-
+            if(which == 1) {
                 Toast.makeText(HomePgActivity.this, "Add Recipe selected", Toast.LENGTH_SHORT).show();
             }
         });

@@ -24,7 +24,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Create database
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -38,7 +37,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createPantryTable);
     }
 
-    // Database upgrades
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -58,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_QUANTITY, quantity);
         values.put(COL_UNIT, unit);
 
-        if(expiryDate.isEmpty()){
+        if(expiryDate.isEmpty()) {
             values.putNull(COL_EXPIRY_DATE);
         } else {
             values.put(COL_EXPIRY_DATE, expiryDate);
@@ -67,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_PANTRY, null, values);
     }
 
-    // Get all Ingredients
+    // Read Ingredients
     public Cursor getAllIngredients() {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -94,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_QUANTITY, quantity);
         values.put(COL_UNIT, unit);
 
-        if(expiryDate.isEmpty()){
+        if(expiryDate.isEmpty()) {
             values.putNull(COL_EXPIRY_DATE);
         } else {
             values.put(COL_EXPIRY_DATE, expiryDate);

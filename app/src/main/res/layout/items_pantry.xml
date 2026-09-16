@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:elevation="3dp"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <!-- Ingredient Name -->
+    <TextView
+        android:id="@+id/txtItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ingredient"
+        android:textColor="#000000"
+        android:textSize="19sp"
+        android:textStyle="bold" />
+
+    <!-- Quantity and Unit -->
+    <TextView
+        android:id="@+id/txtItemQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="6 Pieces"
+        android:textColor="#444444"
+        android:textSize="15sp" />
+
+    <!-- Expiry Date -->
+    <TextView
+        android:id="@+id/txtItemExpiry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Expires: 2026-09-30"
+        android:textColor="#666666"
+        android:textSize="14sp" />
+
+    <!-- Edit and Delete Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <!-- Edit Ingredient -->
+        <Button
+            android:id="@+id/btnEditIngredient"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:text="Edit" />
+
+        <!-- Delete Ingredient -->
+        <Button
+            android:id="@+id/btnDeleteIngredient"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:text="Delete" />
+
+    </LinearLayout>
+
+</LinearLayout>
