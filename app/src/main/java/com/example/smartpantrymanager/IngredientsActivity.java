@@ -24,6 +24,9 @@ public class IngredientsActivity extends AppCompatActivity {
     EditText editExpiryDate;
     Button btnSaveIngredient;
 
+    // Database
+    DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,9 @@ public class IngredientsActivity extends AppCompatActivity {
         editUnit = findViewById(R.id.editUnit);
         editExpiryDate = findViewById(R.id.editExpiryDate);
         btnSaveIngredient = findViewById(R.id.btnSaveIngredient);
+
+        // Connect SQLite database
+        databaseHelper = new DatabaseHelper(this);
 
         // Adjust screen around system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -51,12 +57,13 @@ public class IngredientsActivity extends AppCompatActivity {
         btnSaveIngredient.setOnClickListener(v -> saveIngredient());
     }
 
-    // Ingredient validation
+    // Save Ingredient into database
     private void saveIngredient(){
 
         String name = editIngredientName.getText().toString().trim();
         String quantity = editQuantity.getText().toString().trim();
         String unit = editUnit.getText().toString().trim();
+        String expiryDate = editExpiryDate.getText().toString().trim();
 
         // Check ingredient name
         if(name.isEmpty()){
@@ -76,28 +83,41 @@ public class IngredientsActivity extends AppCompatActivity {
             return;
         }
 
-        // Check quantity is a number
+        // Convert quantity
         double quantityValue;
 
         try {
-
             quantityValue = Double.parseDouble(quantity);
-
         } catch(NumberFormatException e){
-
             editQuantity.setError("Enter a valid quantity");
             return;
         }
 
-        // Quantity cannot be zero
+        // Check quantity is greater than zero
         if(quantityValue <= 0){
-
             editQuantity.setError("Quantity must be greater than 0");
             return;
         }
 
-        // Database will be added next
-        Toast.makeText(IngredientsActivity.this, "Ingredient details accepted", Toast.LENGTH_SHORT).show();
+        // Save Ingredient into SQLite
+        long result = databaseHelper.addIngredient(name, quantityValue, unit, expiryDate);
+
+        if(result != -1){
+
+            Toast.makeText(IngredientsActivity.this, "Ingredient saved successfully", Toast.LENGTH_SHORT).show();
+
+            // Clear fields after saving
+            editIngredientName.setText("");
+            editQuantity.setText("");
+            editUnit.setText("");
+            editExpiryDate.setText("");
+
+            editIngredientName.requestFocus();
+
+        } else {
+
+            Toast.makeText(IngredientsActivity.this, "Unable to save ingredient", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Expiry Date picker
