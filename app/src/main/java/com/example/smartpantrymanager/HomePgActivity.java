@@ -77,7 +77,7 @@ public class HomePgActivity extends AppCompatActivity {
             Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
         });
 
-        // View Suggested Recipes
+        // Suggested Recipes button
         btnViewSuggested.setOnClickListener(v -> {
             Toast.makeText(HomePgActivity.this, "Opening Suggested Recipes", Toast.LENGTH_SHORT).show();
         });
@@ -90,32 +90,27 @@ public class HomePgActivity extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            // Open My Pantry
             if(id == R.id.menuPantry) {
                 Intent intent = new Intent(HomePgActivity.this, PantryAct.class);
                 startActivity(intent);
                 return true;
             }
 
-            // Recipes
             if(id == R.id.menuRecipes) {
                 Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Suggested Recipes
             if(id == R.id.menuSuggestedRecipes) {
                 Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Settings
             if(id == R.id.menuSettings) {
                 Toast.makeText(HomePgActivity.this, "Settings selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Logout
             if(id == R.id.menuLogout) {
                 Intent intent = new Intent(HomePgActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -130,7 +125,7 @@ public class HomePgActivity extends AppCompatActivity {
     // Add menu
     private void addMenu() {
 
-        String[] options = {"Add Ingredient", "Add Recipe"};
+        String[] options = {"Add Ingredient"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(HomePgActivity.this);
 
@@ -138,15 +133,9 @@ public class HomePgActivity extends AppCompatActivity {
 
         builder.setItems(options, (dialog, which) -> {
 
-            // Add Ingredient
             if(which == 0) {
                 Intent intent = new Intent(HomePgActivity.this, IngredientsActivity.class);
                 startActivity(intent);
-            }
-
-            // Add Recipe
-            if(which == 1) {
-                Toast.makeText(HomePgActivity.this, "Add Recipe selected", Toast.LENGTH_SHORT).show();
             }
         });
 

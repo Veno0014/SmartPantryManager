@@ -1,0 +1,27 @@
+package com.example.smartpantrymanager;
+
+public class Recipes {
+
+    // Recipe details
+    private int id;
+    private String name;
+    private String method;
+
+    public Recipes(int id, String name, String method) {
+        this.id = id;
+        this.name = name;
+        this.method = method;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+}
