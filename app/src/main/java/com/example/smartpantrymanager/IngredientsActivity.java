@@ -2,6 +2,8 @@ package com.example.smartpantrymanager;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -20,7 +23,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
     // Ingredient components
     TextView txtIngredientTitle;
-    EditText editIngredientName;
+    AutoCompleteTextView editIngredientName;
     EditText editQuantity;
     EditText editUnit;
     EditText editExpiryDate;
@@ -29,7 +32,7 @@ public class IngredientsActivity extends AppCompatActivity {
     // Database
     DatabaseHelper databaseHelper;
 
-    // Ingredient ID
+    // Ingredient ID used when editing
     int ingredientId = -1;
 
     @Override
@@ -49,7 +52,10 @@ public class IngredientsActivity extends AppCompatActivity {
         // Connect database
         databaseHelper = new DatabaseHelper(this);
 
-        // Check if ingredient is being edited
+        // Load ingredient suggestions from recipes
+        loadIngredientSuggestions();
+
+        // Check whether ingredient is being edited
         ingredientId = getIntent().getIntExtra("ingredient_id", -1);
 
         if(ingredientId != -1) {
@@ -76,7 +82,10 @@ public class IngredientsActivity extends AppCompatActivity {
             }
         }
 
-        // Expiry Date
+        // Show ingredient suggestions when field is clicked
+        editIngredientName.setOnClickListener(v -> editIngredientName.showDropDown());
+
+        // Open date selector
         editExpiryDate.setOnClickListener(v -> selectDate());
 
         // Save Ingredient
@@ -90,6 +99,18 @@ public class IngredientsActivity extends AppCompatActivity {
         });
     }
 
+    // Load ingredient names from recipe database
+    private void loadIngredientSuggestions() {
+
+        ArrayList<String> ingredientNames = databaseHelper.getRecipeIngredientNames();
+
+        ArrayAdapter<String> ingredientAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ingredientNames);
+
+        editIngredientName.setAdapter(ingredientAdapter);
+
+        editIngredientName.setThreshold(1);
+    }
+
     // Save or Update Ingredient
     private void saveIngredient() {
 
@@ -98,19 +119,16 @@ public class IngredientsActivity extends AppCompatActivity {
         String unit = editUnit.getText().toString().trim();
         String expiryDate = editExpiryDate.getText().toString().trim();
 
-        // Validate name
         if(name.isEmpty()) {
             editIngredientName.setError("Enter ingredient name");
             return;
         }
 
-        // Validate quantity
         if(quantity.isEmpty()) {
             editQuantity.setError("Enter quantity");
             return;
         }
 
-        // Validate unit
         if(unit.isEmpty()) {
             editUnit.setError("Enter unit");
             return;
@@ -130,58 +148,26 @@ public class IngredientsActivity extends AppCompatActivity {
             return;
         }
 
-        // Add new ingredient
         if(ingredientId == -1) {
 
             long result = databaseHelper.addIngredient(name, quantityValue, unit, expiryDate);
 
             if(result != -1) {
-
-                Toast.makeText(
-                        IngredientsActivity.this,
-                        "Ingredient saved successfully",
-                        Toast.LENGTH_SHORT
-                ).show();
-
+                Toast.makeText(this, "Ingredient saved successfully", Toast.LENGTH_SHORT).show();
                 finish();
-
             } else {
-
-                Toast.makeText(
-                        IngredientsActivity.this,
-                        "Unable to save ingredient",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(this, "Unable to save ingredient", Toast.LENGTH_SHORT).show();
             }
 
         } else {
 
-            // Update existing ingredient
-            int result = databaseHelper.updateIngredient(
-                    ingredientId,
-                    name,
-                    quantityValue,
-                    unit,
-                    expiryDate
-            );
+            int result = databaseHelper.updateIngredient(ingredientId, name, quantityValue, unit, expiryDate);
 
             if(result > 0) {
-
-                Toast.makeText(
-                        IngredientsActivity.this,
-                        "Ingredient updated successfully",
-                        Toast.LENGTH_SHORT
-                ).show();
-
+                Toast.makeText(this, "Ingredient updated successfully", Toast.LENGTH_SHORT).show();
                 finish();
-
             } else {
-
-                Toast.makeText(
-                        IngredientsActivity.this,
-                        "Unable to update ingredient",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(this, "Unable to update ingredient", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -199,16 +185,9 @@ public class IngredientsActivity extends AppCompatActivity {
                 IngredientsActivity.this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
 
-                    String date = String.format(
-                            Locale.getDefault(),
-                            "%04d-%02d-%02d",
-                            selectedYear,
-                            selectedMonth + 1,
-                            selectedDay
-                    );
+                    String date = String.format(Locale.getDefault(), "%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
 
                     editExpiryDate.setText(date);
-
                 },
                 year,
                 month,

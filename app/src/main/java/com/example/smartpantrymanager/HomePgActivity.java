@@ -61,63 +61,61 @@ public class HomePgActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Open My Pantry
+        // Open Pantry
         cardPantry.setOnClickListener(v -> {
             Intent intent = new Intent(HomePgActivity.this, PantryAct.class);
             startActivity(intent);
         });
 
-        // Open Recipes
+        // Open All Recipes
         cardRecipes.setOnClickListener(v -> {
             Intent intent = new Intent(HomePgActivity.this, RecipesAct.class);
             startActivity(intent);
         });
 
-        // Suggested Recipes
+        // Open Suggested Recipes
         cardSuggested.setOnClickListener(v -> {
-            Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomePgActivity.this, SuggestedRecipesAct.class);
+            startActivity(intent);
         });
 
         // View Suggested Recipes
         btnViewSuggested.setOnClickListener(v -> {
-            Toast.makeText(HomePgActivity.this, "Opening Suggested Recipes", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomePgActivity.this, SuggestedRecipesAct.class);
+            startActivity(intent);
         });
 
-        // Add button
+        // Add Ingredient button
         btnAdd.setOnClickListener(v -> addMenu());
 
-        // Toolbar menu
+        // Toolbar Menu
         topAppBar.setOnMenuItemClickListener(item -> {
 
             int id = item.getItemId();
 
-            // Open My Pantry
             if(id == R.id.menuPantry) {
                 Intent intent = new Intent(HomePgActivity.this, PantryAct.class);
                 startActivity(intent);
                 return true;
             }
 
-            // Open Recipes
             if(id == R.id.menuRecipes) {
                 Intent intent = new Intent(HomePgActivity.this, RecipesAct.class);
                 startActivity(intent);
                 return true;
             }
 
-            // Suggested Recipes
             if(id == R.id.menuSuggestedRecipes) {
-                Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomePgActivity.this, SuggestedRecipesAct.class);
+                startActivity(intent);
                 return true;
             }
 
-            // Settings
             if(id == R.id.menuSettings) {
                 Toast.makeText(HomePgActivity.this, "Settings selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Logout
             if(id == R.id.menuLogout) {
                 Intent intent = new Intent(HomePgActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -129,7 +127,7 @@ public class HomePgActivity extends AppCompatActivity {
         });
     }
 
-    // Add menu
+    // Add Menu
     private void addMenu() {
 
         String[] options = {"Add Ingredient"};

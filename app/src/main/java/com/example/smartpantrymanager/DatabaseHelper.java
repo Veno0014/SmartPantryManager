@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database details
     private static final String DATABASE_NAME = "smart_pantry.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     // Pantry table
     public static final String TABLE_PANTRY = "pantry_items";
@@ -43,9 +43,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         createPantryTable(db);
+
         createRecipeTables(db);
+
         seedRecipes(db);
+
+        seedPantry(db);
     }
 
     @Override
@@ -56,18 +61,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             createRecipeTables(db);
         }
 
-        // Refresh recipe data
-        if(oldVersion < 3) {
+        // Refresh recipe collection
+        if(oldVersion < 4) {
+
             db.delete(TABLE_RECIPE_INGREDIENTS, null, null);
+
             db.delete(TABLE_RECIPES, null, null);
+
             seedRecipes(db);
+        }
+
+        // Add starting pantry stock
+        if(oldVersion < 5) {
+
+            seedPantry(db);
         }
     }
 
     // Create Pantry Table
     private void createPantryTable(SQLiteDatabase db) {
 
-        String createPantryTable = "CREATE TABLE IF NOT EXISTS " + TABLE_PANTRY + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME + " TEXT NOT NULL, " + COL_QUANTITY + " REAL NOT NULL, " + COL_UNIT + " TEXT NOT NULL, " + COL_EXPIRY_DATE + " TEXT)";
+        String createPantryTable = "CREATE TABLE IF NOT EXISTS " + TABLE_PANTRY + " (" +
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_NAME + " TEXT NOT NULL, " +
+                COL_QUANTITY + " REAL NOT NULL, " +
+                COL_UNIT + " TEXT NOT NULL, " +
+                COL_EXPIRY_DATE + " TEXT)";
 
         db.execSQL(createPantryTable);
     }
@@ -75,11 +94,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Create Recipe Tables
     private void createRecipeTables(SQLiteDatabase db) {
 
-        String createRecipeTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " (" + COL_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_RECIPE_NAME + " TEXT NOT NULL, " + COL_METHOD + " TEXT NOT NULL)";
+        String createRecipeTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " (" +
+                COL_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_RECIPE_NAME + " TEXT NOT NULL, " +
+                COL_METHOD + " TEXT NOT NULL)";
 
         db.execSQL(createRecipeTable);
 
-        String createRecipeIngredientsTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECIPE_INGREDIENTS + " (" + COL_RECIPE_INGREDIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_RECIPE_LINK_ID + " INTEGER NOT NULL, " + COL_INGREDIENT_NAME + " TEXT NOT NULL, " + COL_REQUIRED_QUANTITY + " REAL NOT NULL, " + COL_REQUIRED_UNIT + " TEXT NOT NULL)";
+        String createRecipeIngredientsTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECIPE_INGREDIENTS + " (" +
+                COL_RECIPE_INGREDIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_RECIPE_LINK_ID + " INTEGER NOT NULL, " +
+                COL_INGREDIENT_NAME + " TEXT NOT NULL, " +
+                COL_REQUIRED_QUANTITY + " REAL NOT NULL, " +
+                COL_REQUIRED_UNIT + " TEXT NOT NULL)";
 
         db.execSQL(createRecipeIngredientsTable);
     }
@@ -96,8 +123,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_UNIT, unit);
 
         if(expiryDate.isEmpty()) {
+
             values.putNull(COL_EXPIRY_DATE);
+
         } else {
+
             values.put(COL_EXPIRY_DATE, expiryDate);
         }
 
@@ -109,7 +139,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        return db.query(TABLE_PANTRY, null, null, null, null, null, COL_NAME + " ASC");
+        return db.query(
+                TABLE_PANTRY,
+                null,
+                null,
+                null,
+                null,
+                null,
+                COL_NAME + " ASC"
+        );
     }
 
     // Update Ingredient
@@ -124,12 +162,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_UNIT, unit);
 
         if(expiryDate.isEmpty()) {
+
             values.putNull(COL_EXPIRY_DATE);
+
         } else {
+
             values.put(COL_EXPIRY_DATE, expiryDate);
         }
 
-        return db.update(TABLE_PANTRY, values, COL_ID + " = ?", new String[]{String.valueOf(id)});
+        return db.update(
+                TABLE_PANTRY,
+                values,
+                COL_ID + " = ?",
+                new String[]{String.valueOf(id)}
+        );
     }
 
     // Delete Ingredient
@@ -137,23 +183,117 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        return db.delete(TABLE_PANTRY, COL_ID + " = ?", new String[]{String.valueOf(id)});
+        return db.delete(
+                TABLE_PANTRY,
+                COL_ID + " = ?",
+                new String[]{String.valueOf(id)}
+        );
     }
 
-    // Read All Recipes
+    // Preload Pantry Stock
+    private void seedPantry(SQLiteDatabase db) {
+
+        addPantryStockIfMissing(db, "leg mutton", 1.5, "kg");
+        addPantryStockIfMissing(db, "tomato", 12, "pieces");
+        addPantryStockIfMissing(db, "pizza base", 10, "pieces");
+        addPantryStockIfMissing(db, "onion", 8, "pieces");
+        addPantryStockIfMissing(db, "mushroom", 500, "g");
+        addPantryStockIfMissing(db, "bell pepper", 6, "pieces");
+        addPantryStockIfMissing(db, "cheese", 1, "kg");
+        addPantryStockIfMissing(db, "potato", 10, "pieces");
+        addPantryStockIfMissing(db, "rice", 2, "kg");
+        addPantryStockIfMissing(db, "breyani spice", 250, "g");
+        addPantryStockIfMissing(db, "curry powder", 250, "g");
+        addPantryStockIfMissing(db, "egg", 12, "pieces");
+        addPantryStockIfMissing(db, "butter", 500, "g");
+    }
+
+    // Add Pantry Stock Only If Missing
+    private void addPantryStockIfMissing(SQLiteDatabase db, String name, double quantity, String unit) {
+
+        Cursor cursor = db.query(
+                TABLE_PANTRY,
+                new String[]{COL_ID},
+                "LOWER(" + COL_NAME + ") = LOWER(?)",
+                new String[]{name},
+                null,
+                null,
+                null
+        );
+
+        boolean alreadyExists = cursor.moveToFirst();
+
+        cursor.close();
+
+        if(!alreadyExists) {
+
+            ContentValues values = new ContentValues();
+
+            values.put(COL_NAME, name);
+            values.put(COL_QUANTITY, quantity);
+            values.put(COL_UNIT, unit);
+            values.putNull(COL_EXPIRY_DATE);
+
+            db.insert(TABLE_PANTRY, null, values);
+        }
+    }
+
+    // Read Recipes
     public Cursor getAllRecipes() {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        return db.query(TABLE_RECIPES, null, null, null, null, null, COL_RECIPE_NAME + " ASC");
+        return db.query(
+                TABLE_RECIPES,
+                null,
+                null,
+                null,
+                null,
+                null,
+                COL_RECIPE_NAME + " ASC"
+        );
     }
 
-    // Read Ingredients For One Recipe
+    // Read Recipe Ingredients
     public Cursor getRecipeIngredients(int recipeId) {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        return db.query(TABLE_RECIPE_INGREDIENTS, null, COL_RECIPE_LINK_ID + " = ?", new String[]{String.valueOf(recipeId)}, null, null, null);
+        return db.query(
+                TABLE_RECIPE_INGREDIENTS,
+                null,
+                COL_RECIPE_LINK_ID + " = ?",
+                new String[]{String.valueOf(recipeId)},
+                null,
+                null,
+                null
+        );
+    }
+
+    // Get Recipe Ingredient Names
+    public ArrayList<String> getRecipeIngredientNames() {
+
+        ArrayList<String> ingredientNames = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT DISTINCT " + COL_INGREDIENT_NAME +
+                        " FROM " + TABLE_RECIPE_INGREDIENTS +
+                        " ORDER BY " + COL_INGREDIENT_NAME + " ASC",
+                null
+        );
+
+        int nameIndex = cursor.getColumnIndexOrThrow(COL_INGREDIENT_NAME);
+
+        while(cursor.moveToNext()) {
+
+            ingredientNames.add(cursor.getString(nameIndex));
+        }
+
+        cursor.close();
+
+        return ingredientNames;
     }
 
     // Add Recipe
@@ -183,23 +323,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Preload Recipes
     private void seedRecipes(SQLiteDatabase db) {
 
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_RECIPES, null);
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM " + TABLE_RECIPES,
+                null
+        );
 
         if(cursor.moveToFirst() && cursor.getInt(0) > 0) {
+
             cursor.close();
+
             return;
         }
 
         cursor.close();
 
         // 1. Runny Eggs
-        long recipe1 = addRecipe(db, "Runny Eggs", "Heat the butter in a pan. Crack the eggs into the pan and cook until the egg whites are firm while the yolks remain soft and runny.");
+        long recipe1 = addRecipe(
+                db,
+                "Runny Eggs",
+                "Heat the butter in a pan. Crack the eggs into the pan and cook until the egg whites are firm while the yolks remain soft and runny."
+        );
 
         addRecipeIngredient(db, recipe1, "egg", 2, "pieces");
         addRecipeIngredient(db, recipe1, "butter", 10, "g");
 
         // 2. Bunny Chow
-        long recipe2 = addRecipe(db, "Bunny Chow", "Cook the mutton with onion, tomato, potato and curry powder until tender. Hollow out the bread loaf and fill it with the prepared curry.");
+        long recipe2 = addRecipe(
+                db,
+                "Bunny Chow",
+                "Cook the mutton with onion, tomato, potato and curry powder until tender. Hollow out the bread loaf and fill it with the prepared curry."
+        );
 
         addRecipeIngredient(db, recipe2, "bread loaf", 1, "pieces");
         addRecipeIngredient(db, recipe2, "mutton", 500, "g");
@@ -209,14 +362,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe2, "curry powder", 20, "g");
 
         // 3. Tikka Chicken
-        long recipe3 = addRecipe(db, "Tikka Chicken", "Mix the chicken with yoghurt and tikka spice. Allow the chicken to marinate and then cook until fully cooked and golden.");
+        long recipe3 = addRecipe(
+                db,
+                "Tikka Chicken",
+                "Mix the chicken with yoghurt and tikka spice. Allow the chicken to marinate and then cook until fully cooked and golden."
+        );
 
         addRecipeIngredient(db, recipe3, "chicken", 500, "g");
         addRecipeIngredient(db, recipe3, "yoghurt", 150, "ml");
         addRecipeIngredient(db, recipe3, "tikka spice", 20, "g");
 
         // 4. Phutu and Mutton Curry
-        long recipe4 = addRecipe(db, "Phutu and Mutton Curry", "Prepare the phutu using maize meal and water. Cook the mutton with onion, tomato and curry powder until tender. Serve the curry with the phutu.");
+        long recipe4 = addRecipe(
+                db,
+                "Phutu and Mutton Curry",
+                "Prepare the phutu using maize meal and water. Cook the mutton with onion, tomato and curry powder until tender. Serve the curry with the phutu."
+        );
 
         addRecipeIngredient(db, recipe4, "maize meal", 250, "g");
         addRecipeIngredient(db, recipe4, "mutton", 500, "g");
@@ -225,7 +386,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe4, "curry powder", 20, "g");
 
         // 5. Phutu and Chicken Curry
-        long recipe5 = addRecipe(db, "Phutu and Chicken Curry", "Prepare the phutu using maize meal and water. Cook the chicken with onion, tomato and curry powder until tender. Serve the chicken curry with the phutu.");
+        long recipe5 = addRecipe(
+                db,
+                "Phutu and Chicken Curry",
+                "Prepare the phutu using maize meal and water. Cook the chicken with onion, tomato and curry powder until tender. Serve the chicken curry with the phutu."
+        );
 
         addRecipeIngredient(db, recipe5, "maize meal", 250, "g");
         addRecipeIngredient(db, recipe5, "chicken", 500, "g");
@@ -234,7 +399,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe5, "curry powder", 20, "g");
 
         // 6. French Toast
-        long recipe6 = addRecipe(db, "French Toast", "Beat the egg and milk together. Dip the bread into the mixture and fry in butter until golden brown on both sides.");
+        long recipe6 = addRecipe(
+                db,
+                "French Toast",
+                "Beat the egg and milk together. Dip the bread into the mixture and fry in butter until golden brown on both sides."
+        );
 
         addRecipeIngredient(db, recipe6, "bread", 2, "slices");
         addRecipeIngredient(db, recipe6, "egg", 1, "pieces");
@@ -242,14 +411,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe6, "butter", 10, "g");
 
         // 7. Roasted Chicken
-        long recipe7 = addRecipe(db, "Roasted Chicken", "Season the chicken with salt and oil. Place it in the oven and roast until golden brown and completely cooked.");
+        long recipe7 = addRecipe(
+                db,
+                "Roasted Chicken",
+                "Season the chicken with salt and oil. Place it in the oven and roast until golden brown and completely cooked."
+        );
 
         addRecipeIngredient(db, recipe7, "chicken", 1, "pieces");
         addRecipeIngredient(db, recipe7, "oil", 30, "ml");
         addRecipeIngredient(db, recipe7, "salt", 5, "g");
 
         // 8. Chicken Burger and Chips
-        long recipe8 = addRecipe(db, "Chicken Burger and Chips", "Cook the chicken patty. Place it inside the burger bun with lettuce and tomato. Cut the potatoes into chips and fry until golden.");
+        long recipe8 = addRecipe(
+                db,
+                "Chicken Burger and Chips",
+                "Cook the chicken patty. Place it inside the burger bun with lettuce and tomato. Cut the potatoes into chips and fry until golden."
+        );
 
         addRecipeIngredient(db, recipe8, "chicken patty", 1, "pieces");
         addRecipeIngredient(db, recipe8, "burger bun", 1, "pieces");
@@ -259,7 +436,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe8, "oil", 250, "ml");
 
         // 9. Mutton Burger and Chips
-        long recipe9 = addRecipe(db, "Mutton Burger and Chips", "Cook the mutton patty. Place it inside the burger bun with lettuce and tomato. Cut the potatoes into chips and fry until golden.");
+        long recipe9 = addRecipe(
+                db,
+                "Mutton Burger and Chips",
+                "Cook the mutton patty. Place it inside the burger bun with lettuce and tomato. Cut the potatoes into chips and fry until golden."
+        );
 
         addRecipeIngredient(db, recipe9, "mutton patty", 1, "pieces");
         addRecipeIngredient(db, recipe9, "burger bun", 1, "pieces");
@@ -269,7 +450,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe9, "oil", 250, "ml");
 
         // 10. Mushroom and Veg Sausage Omelette
-        long recipe10 = addRecipe(db, "Mushroom and Veg Sausage Omelette", "Slice the mushrooms and vegetarian sausage and lightly fry them. Beat the eggs, pour them into the pan, add the filling and fold the omelette.");
+        long recipe10 = addRecipe(
+                db,
+                "Mushroom and Veg Sausage Omelette",
+                "Slice the mushrooms and vegetarian sausage and lightly fry them. Beat the eggs, pour them into the pan, add the filling and fold the omelette."
+        );
 
         addRecipeIngredient(db, recipe10, "egg", 3, "pieces");
         addRecipeIngredient(db, recipe10, "mushroom", 100, "g");
@@ -277,14 +462,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe10, "butter", 10, "g");
 
         // 11. Egg Roll
-        long recipe11 = addRecipe(db, "Egg Roll", "Beat and cook the eggs in a pan. Place the cooked eggs inside the wrap and roll it tightly before serving.");
+        long recipe11 = addRecipe(
+                db,
+                "Egg Roll",
+                "Beat and cook the eggs in a pan. Place the cooked eggs inside the wrap and roll it tightly before serving."
+        );
 
         addRecipeIngredient(db, recipe11, "egg", 2, "pieces");
         addRecipeIngredient(db, recipe11, "wrap", 1, "pieces");
         addRecipeIngredient(db, recipe11, "butter", 10, "g");
 
         // 12. Chicken Breyani
-        long recipe12 = addRecipe(db, "Chicken Breyani", "Cook the chicken with onion and breyani spice. Add the rice and potatoes and cook until the rice is tender and the chicken is fully cooked.");
+        long recipe12 = addRecipe(
+                db,
+                "Chicken Breyani",
+                "Cook the chicken with onion and breyani spice. Add the rice and potatoes and cook until the rice is tender and the chicken is fully cooked."
+        );
 
         addRecipeIngredient(db, recipe12, "chicken", 500, "g");
         addRecipeIngredient(db, recipe12, "rice", 300, "g");
@@ -293,7 +486,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe12, "breyani spice", 20, "g");
 
         // 13. Mutton Breyani
-        long recipe13 = addRecipe(db, "Mutton Breyani", "Cook the mutton with onion and breyani spice until tender. Add the rice and potatoes and cook until the rice is ready.");
+        long recipe13 = addRecipe(
+                db,
+                "Mutton Breyani",
+                "Cook the mutton with onion and breyani spice until tender. Add the rice and potatoes and cook until the rice is ready."
+        );
 
         addRecipeIngredient(db, recipe13, "mutton", 500, "g");
         addRecipeIngredient(db, recipe13, "rice", 300, "g");
@@ -302,7 +499,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe13, "breyani spice", 20, "g");
 
         // 14. Wagyu and Chips
-        long recipe14 = addRecipe(db, "Wagyu and Chips", "Season and cook the Wagyu steak to the desired level. Cut the potatoes into chips and fry until golden and crispy.");
+        long recipe14 = addRecipe(
+                db,
+                "Wagyu and Chips",
+                "Season and cook the Wagyu steak to the desired level. Cut the potatoes into chips and fry until golden and crispy."
+        );
 
         addRecipeIngredient(db, recipe14, "wagyu steak", 250, "g");
         addRecipeIngredient(db, recipe14, "potato", 2, "pieces");
@@ -310,12 +511,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, recipe14, "salt", 5, "g");
 
         // 15. Veg Todays Pizza
-        long recipe15 = addRecipe(db, "Veg Todays Pizza", "Place the pizza base on a baking tray. Add the tomato, onion, mushroom and bell pepper. Sprinkle the cheese over the vegetables and bake until the cheese has melted and the pizza is golden.");
+        long recipe15 = addRecipe(
+                db,
+                "Veg Todays Pizza",
+                "Place the pizza base on a baking tray. Add the tomato, onion, mushroom and bell pepper. Sprinkle the cheese over the vegetables and bake until the cheese has melted and the pizza is golden."
+        );
 
         addRecipeIngredient(db, recipe15, "pizza base", 1, "pieces");
         addRecipeIngredient(db, recipe15, "tomato", 1, "pieces");
+        addRecipeIngredient(db, recipe15, "onion", 1, "pieces");
         addRecipeIngredient(db, recipe15, "mushroom", 100, "g");
-        addRecipeIngredient(db, recipe15, "black pepper", 1, "pieces");
+        addRecipeIngredient(db, recipe15, "bell pepper", 1, "pieces");
         addRecipeIngredient(db, recipe15, "cheese", 100, "g");
     }
 
@@ -326,7 +532,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor recipeCursor = db.query(TABLE_RECIPES, null, null, null, null, null, COL_RECIPE_NAME + " ASC");
+        Cursor recipeCursor = db.query(
+                TABLE_RECIPES,
+                null,
+                null,
+                null,
+                null,
+                null,
+                COL_RECIPE_NAME + " ASC"
+        );
 
         int recipeIdIndex = recipeCursor.getColumnIndexOrThrow(COL_RECIPE_ID);
         int recipeNameIndex = recipeCursor.getColumnIndexOrThrow(COL_RECIPE_NAME);
@@ -340,7 +554,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             boolean canMakeRecipe = true;
 
-            Cursor ingredientCursor = db.query(TABLE_RECIPE_INGREDIENTS, null, COL_RECIPE_LINK_ID + " = ?", new String[]{String.valueOf(recipeId)}, null, null, null);
+            Cursor ingredientCursor = db.query(
+                    TABLE_RECIPE_INGREDIENTS,
+                    null,
+                    COL_RECIPE_LINK_ID + " = ?",
+                    new String[]{String.valueOf(recipeId)},
+                    null,
+                    null,
+                    null
+            );
 
             int ingredientNameIndex = ingredientCursor.getColumnIndexOrThrow(COL_INGREDIENT_NAME);
             int quantityIndex = ingredientCursor.getColumnIndexOrThrow(COL_REQUIRED_QUANTITY);
@@ -353,7 +575,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String requiredUnit = ingredientCursor.getString(unitIndex);
 
                 if(!hasEnoughIngredient(db, requiredName, requiredQuantity, requiredUnit)) {
+
                     canMakeRecipe = false;
+
                     break;
                 }
             }
@@ -361,7 +585,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ingredientCursor.close();
 
             if(canMakeRecipe) {
-                suggestedRecipes.add(new Recipes(recipeId, recipeName, method));
+
+                suggestedRecipes.add(
+                        new Recipes(
+                                recipeId,
+                                recipeName,
+                                method
+                        )
+                );
             }
         }
 
@@ -373,7 +604,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Check Pantry Ingredient
     private boolean hasEnoughIngredient(SQLiteDatabase db, String requiredName, double requiredQuantity, String requiredUnit) {
 
-        Cursor pantryCursor = db.query(TABLE_PANTRY, null, null, null, null, null, null);
+        Cursor pantryCursor = db.query(
+                TABLE_PANTRY,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
 
         int pantryNameIndex = pantryCursor.getColumnIndexOrThrow(COL_NAME);
         int pantryQuantityIndex = pantryCursor.getColumnIndexOrThrow(COL_QUANTITY);
@@ -382,6 +621,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         double totalQuantity = 0;
 
         String requiredIngredient = normalizeIngredientName(requiredName);
+
         String requiredBaseUnit = getBaseUnit(requiredUnit);
 
         while(pantryCursor.moveToNext()) {
@@ -391,16 +631,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String pantryUnit = pantryCursor.getString(pantryUnitIndex);
 
             String pantryIngredient = normalizeIngredientName(pantryName);
+
             String pantryBaseUnit = getBaseUnit(pantryUnit);
 
             if(requiredIngredient.equals(pantryIngredient) && requiredBaseUnit.equals(pantryBaseUnit)) {
-                totalQuantity += convertToBaseQuantity(pantryQuantity, pantryUnit);
+
+                totalQuantity += convertToBaseQuantity(
+                        pantryQuantity,
+                        pantryUnit
+                );
             }
         }
 
         pantryCursor.close();
 
-        double requiredBaseQuantity = convertToBaseQuantity(requiredQuantity, requiredUnit);
+        double requiredBaseQuantity = convertToBaseQuantity(
+                requiredQuantity,
+                requiredUnit
+        );
 
         return totalQuantity >= requiredBaseQuantity;
     }
@@ -409,6 +657,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String normalizeIngredientName(String name) {
 
         String value = name.toLowerCase(Locale.ROOT).trim();
+
+        // Leg mutton is still treated as mutton
+        if(value.equals("leg mutton")) {
+            return "mutton";
+        }
 
         if(value.equals("tomatoes")) {
             return "tomato";
@@ -427,9 +680,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         if(value.endsWith("ies") && value.length() > 3) {
-            value = value.substring(0, value.length() - 3) + "y";
+
+            value = value.substring(
+                    0,
+                    value.length() - 3
+            ) + "y";
+
         } else if(value.endsWith("s") && !value.endsWith("ss") && value.length() > 3) {
-            value = value.substring(0, value.length() - 1);
+
+            value = value.substring(
+                    0,
+                    value.length() - 1
+            );
         }
 
         return value;
@@ -440,23 +702,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String value = unit.toLowerCase(Locale.ROOT).trim();
 
-        if(value.equals("g") || value.equals("gram") || value.equals("grams") || value.equals("kg") || value.equals("kilogram") || value.equals("kilograms")) {
+        if(value.equals("g") ||
+                value.equals("gram") ||
+                value.equals("grams") ||
+                value.equals("kg") ||
+                value.equals("kilogram") ||
+                value.equals("kilograms")) {
+
             return "g";
         }
 
-        if(value.equals("ml") || value.equals("millilitre") || value.equals("millilitres") || value.equals("milliliter") || value.equals("milliliters") || value.equals("l") || value.equals("litre") || value.equals("litres") || value.equals("liter") || value.equals("liters")) {
+        if(value.equals("ml") ||
+                value.equals("millilitre") ||
+                value.equals("millilitres") ||
+                value.equals("milliliter") ||
+                value.equals("milliliters") ||
+                value.equals("l") ||
+                value.equals("litre") ||
+                value.equals("litres") ||
+                value.equals("liter") ||
+                value.equals("liters")) {
+
             return "ml";
         }
 
-        if(value.equals("piece") || value.equals("pieces") || value.equals("pc") || value.equals("pcs") || value.equals("unit") || value.equals("units")) {
+        if(value.equals("piece") ||
+                value.equals("pieces") ||
+                value.equals("pc") ||
+                value.equals("pcs") ||
+                value.equals("unit") ||
+                value.equals("units")) {
+
             return "piece";
         }
 
-        if(value.equals("slice") || value.equals("slices")) {
+        if(value.equals("slice") ||
+                value.equals("slices")) {
+
             return "slice";
         }
 
-        if(value.equals("leaf") || value.equals("leaves")) {
+        if(value.equals("leaf") ||
+                value.equals("leaves")) {
+
             return "leaf";
         }
 
@@ -468,11 +756,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String value = unit.toLowerCase(Locale.ROOT).trim();
 
-        if(value.equals("kg") || value.equals("kilogram") || value.equals("kilograms")) {
+        // Kilograms to grams
+        if(value.equals("kg") ||
+                value.equals("kilogram") ||
+                value.equals("kilograms")) {
+
             return quantity * 1000;
         }
 
-        if(value.equals("l") || value.equals("litre") || value.equals("litres") || value.equals("liter") || value.equals("liters")) {
+        // Litres to millilitres
+        if(value.equals("l") ||
+                value.equals("litre") ||
+                value.equals("litres") ||
+                value.equals("liter") ||
+                value.equals("liters")) {
+
             return quantity * 1000;
         }
 
