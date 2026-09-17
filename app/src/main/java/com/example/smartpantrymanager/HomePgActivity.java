@@ -67,9 +67,10 @@ public class HomePgActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Recipes
+        // Open Recipes
         cardRecipes.setOnClickListener(v -> {
-            Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomePgActivity.this, RecipesAct.class);
+            startActivity(intent);
         });
 
         // Suggested Recipes
@@ -77,7 +78,7 @@ public class HomePgActivity extends AppCompatActivity {
             Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
         });
 
-        // Suggested Recipes button
+        // View Suggested Recipes
         btnViewSuggested.setOnClickListener(v -> {
             Toast.makeText(HomePgActivity.this, "Opening Suggested Recipes", Toast.LENGTH_SHORT).show();
         });
@@ -90,27 +91,33 @@ public class HomePgActivity extends AppCompatActivity {
 
             int id = item.getItemId();
 
+            // Open My Pantry
             if(id == R.id.menuPantry) {
                 Intent intent = new Intent(HomePgActivity.this, PantryAct.class);
                 startActivity(intent);
                 return true;
             }
 
+            // Open Recipes
             if(id == R.id.menuRecipes) {
-                Toast.makeText(HomePgActivity.this, "Recipes selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomePgActivity.this, RecipesAct.class);
+                startActivity(intent);
                 return true;
             }
 
+            // Suggested Recipes
             if(id == R.id.menuSuggestedRecipes) {
                 Toast.makeText(HomePgActivity.this, "Suggested Recipes selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
+            // Settings
             if(id == R.id.menuSettings) {
                 Toast.makeText(HomePgActivity.this, "Settings selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
+            // Logout
             if(id == R.id.menuLogout) {
                 Intent intent = new Intent(HomePgActivity.this, MainActivity.class);
                 startActivity(intent);
