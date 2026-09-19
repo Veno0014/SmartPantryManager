@@ -19,8 +19,11 @@
             android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
 
         </activity>
@@ -46,6 +49,12 @@
         <!-- Recipes Screen -->
         <activity
             android:name=".RecipesAct"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Add Recipe Screen -->
+        <activity
+            android:name=".act_add_recipe"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
