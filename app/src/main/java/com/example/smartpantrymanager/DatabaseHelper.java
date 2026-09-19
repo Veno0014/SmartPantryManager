@@ -776,4 +776,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return quantity;
     }
+
+    // Add Custom Recipe
+    public long addCustomRecipe(String name, String method, ArrayList<String> ingredientNames, ArrayList<Double> quantities, ArrayList<String> units) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.beginTransaction();
+
+        long recipeId = -1;
+
+        try {
+
+            recipeId = addRecipe(db, name, method);
+
+            if(recipeId == -1) {
+                return -1;
+            }
+
+            for(int i = 0; i < ingredientNames.size(); i++) {
+
+                addRecipeIngredient(
+                        db,
+                        recipeId,
+                        ingredientNames.get(i),
+                        quantities.get(i),
+                        units.get(i)
+                );
+            }
+
+            db.setTransactionSuccessful();
+
+        } finally {
+
+            db.endTransaction();
+        }
+
+        return recipeId;
+    }
 }

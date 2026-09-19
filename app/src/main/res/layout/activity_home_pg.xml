@@ -7,22 +7,24 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
+    android:background="#FFFFFF"
     tools:context=".HomePgActivity">
 
     <!-- Top Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
         android:background="#FFFFFF"
         app:menu="@menu/home_menu"
+        app:title="My Pantry"
         app:titleTextColor="#1F1F1F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Home Page Content -->
+    <!-- Home Content -->
     <ScrollView
         android:id="@+id/homeScroll"
         android:layout_width="0dp"
@@ -38,28 +40,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="20dp"
-            android:paddingTop="25dp"
+            android:paddingTop="20dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="100dp">
+            android:paddingBottom="110dp">
 
-            <!-- Welcome Message -->
+            <!-- Greeting -->
             <TextView
                 android:id="@+id/txtHello"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_user"
+                android:text="Hello, User"
                 android:textColor="#5F5F5F"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
-            <!-- Main Heading -->
+            <!-- Heading -->
             <TextView
                 android:id="@+id/txtHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/home_heading"
+                android:layout_marginTop="5dp"
+                android:text="What can we make today?"
                 android:textColor="#1F1F1F"
-                android:textSize="26sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <!-- Search Recipes -->
@@ -67,9 +69,10 @@
                 android:id="@+id/editSearch"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="20dp"
                 android:background="@android:drawable/edit_text"
-                android:hint="@string/search_recipes"
+                android:hint="Search recipes"
+                android:imeOptions="actionSearch"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:paddingStart="15dp"
@@ -82,166 +85,118 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/quick_access"
+                android:layout_marginTop="25dp"
+                android:text="Quick Access"
                 android:textColor="#1F1F1F"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <!-- Quick Access Cards -->
-            <HorizontalScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:scrollbars="none">
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <!-- My Pantry -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPantry"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="#F3E9E2"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
-                    <!-- My Pantry -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardPantry"
-                        android:layout_width="150dp"
-                        android:layout_height="110dp"
-                        android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="#F3E9E2"
-                        app:cardCornerRadius="18dp"
-                        app:cardElevation="3dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="My Pantry"
+                        android:textColor="#1F1F1F"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                </com.google.android.material.card.MaterialCardView>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/my_pantry"
-                                android:textColor="#1F1F1F"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                <!-- Recipes -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardRecipes"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="#F3E9E2"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
-                        </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Recipes"
+                        android:textColor="#1F1F1F"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                    </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Recipes -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardRecipes"
-                        android:layout_width="150dp"
-                        android:layout_height="110dp"
-                        android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="#F3E9E2"
-                        app:cardCornerRadius="18dp"
-                        app:cardElevation="3dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/recipes"
-                                android:textColor="#1F1F1F"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Suggested -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardSuggested"
-                        android:layout_width="150dp"
-                        android:layout_height="110dp"
-                        app:cardBackgroundColor="#F3E9E2"
-                        app:cardCornerRadius="18dp"
-                        app:cardElevation="3dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/suggested"
-                                android:textColor="#1F1F1F"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
+            </LinearLayout>
 
             <!-- Suggested Recipes Heading -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/suggested_recipes"
+                android:layout_marginTop="28dp"
+                android:text="Suggested Recipes"
                 android:textColor="#1F1F1F"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Suggested Recipe Card -->
+            <!-- Suggested Recipes Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardSuggestedRecipe"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 app:cardBackgroundColor="#F3E9E2"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="3dp">
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="18dp">
 
-                    <!-- Suggested Recipe Title -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/recipes_you_can_make"
+                        android:text="Recipes you can make"
                         android:textColor="#1F1F1F"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
 
-                    <!-- Suggested Recipe Information -->
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@string/suggested_description"
+                        android:text="Recipes will appear here based on the ingredients currently available in your pantry."
                         android:textColor="#5F5F5F"
                         android:textSize="14sp" />
 
-                    <!-- View Recipes Button -->
                     <Button
                         android:id="@+id/btnViewSuggested"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:layout_marginTop="12dp"
-                        android:minWidth="140dp"
-                        android:text="@string/view_recipes"
+                        android:layout_marginTop="15dp"
+                        android:text="View Recipes"
                         android:textColor="#FFFFFF"
-                        android:textSize="14sp"
                         android:textStyle="bold"
                         app:backgroundTint="#6D4C41" />
 
@@ -253,14 +208,14 @@
 
     </ScrollView>
 
-    <!-- Add Ingredient Button -->
+    <!-- Add Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:contentDescription="@string/add_ingredient"
+        android:contentDescription="Add Ingredient or Recipe"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="#FFD54F"
         app:tint="#000000"

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fillViewport="true"
+    tools:context=".act_add_recipe">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Recipe"
+            android:textColor="#000000"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Recipe Name"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editRecipeName"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:hint="Example: Chicken Curry"
+            android:inputType="textCapWords"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#777777" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Ingredients"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Enter one ingredient per line: Name, Quantity, Unit"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/editRecipeIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="8dp"
+            android:gravity="top|start"
+            android:hint="chicken,500,g&#10;onion,1,pieces&#10;rice,300,g"
+            android:inputType="textMultiLine"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#777777" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Cooking Steps"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editRecipeMethod"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:gravity="top|start"
+            android:hint="1. Prepare the ingredients.&#10;2. Cook the chicken.&#10;3. Add the vegetables.&#10;4. Serve."
+            android:inputType="textMultiLine"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#777777" />
+
+        <Button
+            android:id="@+id/btnSaveRecipe"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#6D4C41"
+            android:text="Save Recipe"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>

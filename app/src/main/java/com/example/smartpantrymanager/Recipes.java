@@ -2,7 +2,6 @@ package com.example.smartpantrymanager;
 
 public class Recipes {
 
-    // Recipe details
     private int id;
     private String name;
     private String method;

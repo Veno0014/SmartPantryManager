@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -87,74 +88,51 @@ public class PantryAct extends AppCompatActivity {
         // Empty pantry message
         listPantry.setEmptyView(txtEmptyPantry);
 
-        // Create hamburger menu button
-        drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                pantryToolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
+        // Create hamburger menu
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, pantryToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         drawerLayout.addDrawerListener(drawerToggle);
 
         drawerToggle.syncState();
 
-        // Current page
+        // Show Pantry as current page
         navigationView.setCheckedItem(R.id.navPantry);
 
-        // Hamburger menu selections
+        // Hamburger menu
         navigationView.setNavigationItemSelectedListener(item -> {
 
             int id = item.getItemId();
 
             // Home
             if(id == R.id.navHome) {
-
                 Intent intent = new Intent(PantryAct.this, HomePgActivity.class);
-
                 startActivity(intent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
-
                 finish();
-
                 return true;
             }
 
             // Pantry
             if(id == R.id.navPantry) {
-
                 drawerLayout.closeDrawer(GravityCompat.START);
-
                 return true;
             }
 
             // Recipes
             if(id == R.id.navRecipes) {
-
                 Intent intent = new Intent(PantryAct.this, RecipesAct.class);
-
                 startActivity(intent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
-
                 finish();
-
                 return true;
             }
 
             // Suggested Recipes
             if(id == R.id.navSuggested) {
-
                 Intent intent = new Intent(PantryAct.this, SuggestedRecipesAct.class);
-
                 startActivity(intent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
-
                 finish();
-
                 return true;
             }
 
@@ -163,10 +141,22 @@ public class PantryAct extends AppCompatActivity {
 
         // Add Ingredient
         btnAddIngredient.setOnClickListener(v -> {
-
             Intent intent = new Intent(PantryAct.this, IngredientsActivity.class);
-
             startActivity(intent);
+        });
+
+        // Back button
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+
+            @Override
+            public void handleOnBackPressed() {
+
+                if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    finish();
+                }
+            }
         });
 
         // Adjust screen around system bars
@@ -174,12 +164,7 @@ public class PantryAct extends AppCompatActivity {
 
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
 
-            v.setPadding(
-                    systemBars.left,
-                    systemBars.top,
-                    systemBars.right,
-                    systemBars.bottom
-            );
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
 
             return insets;
         });
@@ -189,11 +174,14 @@ public class PantryAct extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        loadPantry();
+        // Get search from Home screen
+        String searchQuery = getIntent().getStringExtra("search_query");
+
+        loadPantry(searchQuery);
     }
 
     // Load pantry
-    private void loadPantry() {
+    private void loadPantry(String searchQuery) {
 
         pantryItems.clear();
 
@@ -204,6 +192,12 @@ public class PantryAct extends AppCompatActivity {
         int quantityIndex = cursor.getColumnIndexOrThrow(DatabaseHelper.COL_QUANTITY);
         int unitIndex = cursor.getColumnIndexOrThrow(DatabaseHelper.COL_UNIT);
         int expiryIndex = cursor.getColumnIndexOrThrow(DatabaseHelper.COL_EXPIRY_DATE);
+
+        String searchText = "";
+
+        if(searchQuery != null) {
+            searchText = searchQuery.trim().toLowerCase();
+        }
 
         while(cursor.moveToNext()) {
 
@@ -218,18 +212,23 @@ public class PantryAct extends AppCompatActivity {
                 expiryDate = cursor.getString(expiryIndex);
             }
 
-            pantryItems.add(
-                    new PantryItems(
-                            id,
-                            name,
-                            quantity,
-                            unit,
-                            expiryDate
-                    )
-            );
+            // Show all ingredients or matching ingredients
+            if(searchText.isEmpty() || name.toLowerCase().contains(searchText)) {
+                PantryItems item = new PantryItems(id, name, quantity, unit, expiryDate);
+                pantryItems.add(item);
+            }
         }
 
         cursor.close();
+
+        // Change title when searching
+        if(searchText.isEmpty()) {
+            pantryToolbar.setTitle("My Pantry");
+            txtEmptyPantry.setText("Your pantry is empty.");
+        } else {
+            pantryToolbar.setTitle("Search: " + searchQuery);
+            txtEmptyPantry.setText("No ingredients found for \"" + searchQuery + "\".");
+        }
 
         pantryAdapter.notifyDataSetChanged();
     }
@@ -263,39 +262,20 @@ public class PantryAct extends AppCompatActivity {
 
             if(result > 0) {
 
-                Toast.makeText(
-                        PantryAct.this,
-                        "Ingredient deleted",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(PantryAct.this, "Ingredient deleted", Toast.LENGTH_SHORT).show();
 
-                loadPantry();
+                String searchQuery = getIntent().getStringExtra("search_query");
+
+                loadPantry(searchQuery);
 
             } else {
 
-                Toast.makeText(
-                        PantryAct.this,
-                        "Unable to delete ingredient",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(PantryAct.this, "Unable to delete ingredient", Toast.LENGTH_SHORT).show();
             }
         });
 
         builder.setNegativeButton("Cancel", null);
 
         builder.show();
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
-
-            drawerLayout.closeDrawer(GravityCompat.START);
-
-        } else {
-
-            super.onBackPressed();
-        }
     }
 }

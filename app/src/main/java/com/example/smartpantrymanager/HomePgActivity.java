@@ -2,7 +2,10 @@ package com.example.smartpantrymanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,31 +22,32 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomePgActivity extends AppCompatActivity {
 
-    // Home page components
     MaterialToolbar topAppBar;
     TextView txtHello;
+    EditText editSearch;
     MaterialCardView cardPantry;
     MaterialCardView cardRecipes;
-    MaterialCardView cardSuggested;
     Button btnViewSuggested;
     FloatingActionButton btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_home_pg);
 
         // Connect Java to XML
         topAppBar = findViewById(R.id.topAppBar);
         txtHello = findViewById(R.id.txtHello);
+        editSearch = findViewById(R.id.editSearch);
         cardPantry = findViewById(R.id.cardPantry);
         cardRecipes = findViewById(R.id.cardRecipes);
-        cardSuggested = findViewById(R.id.cardSuggested);
         btnViewSuggested = findViewById(R.id.btnViewSuggested);
         btnAdd = findViewById(R.id.btnAdd);
 
-        // Get username from Login screen
+        // Get username
         String username = getIntent().getStringExtra("username");
 
         if(username != null && !username.isEmpty()) {
@@ -61,34 +65,54 @@ public class HomePgActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Open Pantry
+        // Search bar
+        editSearch.setOnEditorActionListener((v, actionId, event) -> {
+
+            boolean searchPressed = actionId == EditorInfo.IME_ACTION_SEARCH;
+
+            boolean enterPressed = event != null &&
+                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER &&
+                    event.getAction() == KeyEvent.ACTION_DOWN;
+
+            if(searchPressed || enterPressed) {
+
+                String searchText = editSearch.getText().toString().trim();
+
+                if(searchText.isEmpty()) {
+                    editSearch.setError("Enter an ingredient or recipe name");
+                    return true;
+                }
+
+                showSearchOptions(searchText);
+
+                return true;
+            }
+
+            return false;
+        });
+
+        // Pantry
         cardPantry.setOnClickListener(v -> {
             Intent intent = new Intent(HomePgActivity.this, PantryAct.class);
             startActivity(intent);
         });
 
-        // Open All Recipes
+        // Recipes
         cardRecipes.setOnClickListener(v -> {
             Intent intent = new Intent(HomePgActivity.this, RecipesAct.class);
             startActivity(intent);
         });
 
-        // Open Suggested Recipes
-        cardSuggested.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePgActivity.this, SuggestedRecipesAct.class);
-            startActivity(intent);
-        });
-
-        // View Suggested Recipes
+        // Suggested Recipes
         btnViewSuggested.setOnClickListener(v -> {
             Intent intent = new Intent(HomePgActivity.this, SuggestedRecipesAct.class);
             startActivity(intent);
         });
 
-        // Add Ingredient button
-        btnAdd.setOnClickListener(v -> addMenu());
+        // Plus button
+        btnAdd.setOnClickListener(v -> showAddMenu());
 
-        // Toolbar Menu
+        // Toolbar menu
         topAppBar.setOnMenuItemClickListener(item -> {
 
             int id = item.getItemId();
@@ -127,10 +151,43 @@ public class HomePgActivity extends AppCompatActivity {
         });
     }
 
-    // Add Menu
-    private void addMenu() {
+    // Search Ingredients or Recipes
+    private void showSearchOptions(String searchText) {
 
-        String[] options = {"Add Ingredient"};
+        String[] options = {
+                "Search Ingredients",
+                "Search Recipes"
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomePgActivity.this);
+
+        builder.setTitle("Search for \"" + searchText + "\"");
+
+        builder.setItems(options, (dialog, which) -> {
+
+            if(which == 0) {
+                Intent intent = new Intent(HomePgActivity.this, PantryAct.class);
+                intent.putExtra("search_query", searchText);
+                startActivity(intent);
+            }
+
+            if(which == 1) {
+                Intent intent = new Intent(HomePgActivity.this, RecipesAct.class);
+                intent.putExtra("search_query", searchText);
+                startActivity(intent);
+            }
+        });
+
+        builder.show();
+    }
+
+    // Plus Button Menu
+    private void showAddMenu() {
+
+        String[] options = {
+                "Add Ingredient",
+                "Add Recipe"
+        };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(HomePgActivity.this);
 
@@ -140,6 +197,11 @@ public class HomePgActivity extends AppCompatActivity {
 
             if(which == 0) {
                 Intent intent = new Intent(HomePgActivity.this, IngredientsActivity.class);
+                startActivity(intent);
+            }
+
+            if(which == 1) {
+                Intent intent = new Intent(HomePgActivity.this, act_add_recipe.class);
                 startActivity(intent);
             }
         });
