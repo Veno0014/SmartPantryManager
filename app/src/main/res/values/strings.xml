@@ -18,4 +18,6 @@
     <string name="view_recipes">View Recipes</string>
     <string name="add_ingredient">Add ingredient</string>
 
+    <string name="navigation_drawer_open">Open navigation menu</string>
+    <string name="navigation_drawer_close">Close navigation menu</string>
 </resources>
