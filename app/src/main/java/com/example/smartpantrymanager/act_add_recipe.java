@@ -1,5 +1,6 @@
 package com.example.smartpantrymanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +15,9 @@ public class act_add_recipe extends AppCompatActivity {
     EditText editRecipeName;
     EditText editRecipeIngredients;
     EditText editRecipeMethod;
+
     Button btnSaveRecipe;
+    Button btnCancelRecipe;
 
     DatabaseHelper databaseHelper;
 
@@ -28,13 +31,28 @@ public class act_add_recipe extends AppCompatActivity {
         editRecipeName = findViewById(R.id.editRecipeName);
         editRecipeIngredients = findViewById(R.id.editRecipeIngredients);
         editRecipeMethod = findViewById(R.id.editRecipeMethod);
+
         btnSaveRecipe = findViewById(R.id.btnSaveRecipe);
+        btnCancelRecipe = findViewById(R.id.btnCancelRecipe);
 
         // Connect database
         databaseHelper = new DatabaseHelper(this);
 
-        // Save Recipe button
+        // Save Recipe
         btnSaveRecipe.setOnClickListener(v -> saveRecipe());
+
+        // Cancel and return to Home
+        btnCancelRecipe.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    act_add_recipe.this,
+                    HomePgActivity.class
+            );
+
+            startActivity(intent);
+
+            finish();
+        });
     }
 
     private void saveRecipe() {
@@ -47,19 +65,25 @@ public class act_add_recipe extends AppCompatActivity {
 
         // Check Recipe Name
         if(recipeName.isEmpty()) {
+
             editRecipeName.setError("Please enter a recipe name");
+
             return;
         }
 
         // Check Ingredients
         if(ingredientsText.isEmpty()) {
+
             editRecipeIngredients.setError("Please enter ingredients");
+
             return;
         }
 
         // Check Cooking Steps
         if(method.isEmpty()) {
+
             editRecipeMethod.setError("Please enter cooking steps");
+
             return;
         }
 
@@ -160,6 +184,13 @@ public class act_add_recipe extends AppCompatActivity {
                     "Recipe added successfully",
                     Toast.LENGTH_SHORT
             ).show();
+
+            Intent intent = new Intent(
+                    act_add_recipe.this,
+                    HomePgActivity.class
+            );
+
+            startActivity(intent);
 
             finish();
 
