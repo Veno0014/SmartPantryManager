@@ -50,12 +50,7 @@ Password: `admin123`
 
 This provides the CRUD functionality required for the project.
 
-## CRUD means:
-
-- Create - Add a new ingredient
-- Read - View ingredients
-- Update - Edit an ingredient
-- Delete - Delete an ingredient
+## CRUD design:
 
 ## Recipes
 
@@ -180,7 +175,7 @@ The Java files are then connected to the XML components using IDs.
 
 For example, a button created in XML can be connected to Java using `findViewById()`.
 
-## Navigation
+## HamBurger Nav
 
 The application currently includes the following screens:
 
