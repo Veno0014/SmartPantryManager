@@ -1,23 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Smart Pantry Manager</string>
 
-    <string name="hello_user">Hello, User</string>
-    <string name="home_heading">What can we make today?</string>
-    <string name="search_recipes">Search recipes</string>
+    <!-- Home Page -->
+    <string name="home_hello">Hello, Chef</string>
+    <string name="home_question">What we making today?</string>
+    <string name="home_search_hint">Search recipes &amp; ingredients</string>
     <string name="quick_access">Quick Access</string>
-
     <string name="my_pantry">My Pantry</string>
     <string name="recipes">Recipes</string>
-    <string name="suggested">Suggested</string>
-
     <string name="suggested_recipes">Suggested Recipes</string>
     <string name="recipes_you_can_make">Recipes you can make</string>
-    <string name="suggested_description">Recipes will appear here based on the ingredients currently available in your pantry.</string>
-
+    <string name="suggested_recipe_description">Recipes will appear here based on the ingredients currently available in your pantry.</string>
     <string name="view_recipes">View Recipes</string>
-    <string name="add_ingredient">Add ingredient</string>
+    <string name="add_ingredient_or_recipe">Add Ingredient or Recipe</string>
 
+    <!-- Navigation -->
     <string name="navigation_drawer_open">Open navigation menu</string>
     <string name="navigation_drawer_close">Close navigation menu</string>
+
 </resources>
