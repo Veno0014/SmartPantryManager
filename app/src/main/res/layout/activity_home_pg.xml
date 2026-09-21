@@ -7,14 +7,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3E9E2"
+    android:background="#FFFFFF"
     tools:context=".HomePgActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#F3E9E2"
+        android:background="#FFFFFF"
         android:minHeight="?attr/actionBarSize"
         android:title="@string/my_pantry"
         android:titleTextColor="#1F1F1F"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/home_hello"
                 android:textColor="#5F5F5F"
-                android:textSize="17sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/txtHeading"
@@ -57,7 +57,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/home_question"
                 android:textColor="#1F1F1F"
-                android:textSize="28sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -73,7 +73,8 @@
                 android:paddingEnd="16dp"
                 android:singleLine="true"
                 android:textColor="#1F1F1F"
-                android:textColorHint="#777777" />
+                android:textColorHint="#777777"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,7 +82,7 @@
                 android:layout_marginTop="28dp"
                 android:text="@string/quick_access"
                 android:textColor="#1F1F1F"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -94,11 +95,12 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPantry"
                     android:layout_width="0dp"
-                    android:layout_height="130dp"
+                    android:layout_height="120dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="18dp"
-                    app:cardElevation="3dp">
+                    app:cardBackgroundColor="#F3E9E2"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -113,7 +115,7 @@
                             android:gravity="center"
                             android:text="@string/my_pantry"
                             android:textColor="#1F1F1F"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -123,11 +125,12 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardRecipes"
                     android:layout_width="0dp"
-                    android:layout_height="130dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="18dp"
-                    app:cardElevation="3dp">
+                    app:cardBackgroundColor="#F3E9E2"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -142,7 +145,7 @@
                             android:gravity="center"
                             android:text="@string/recipes"
                             android:textColor="#1F1F1F"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -154,10 +157,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="28dp"
                 android:text="@string/suggested_recipes"
                 android:textColor="#1F1F1F"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
@@ -165,21 +168,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="3dp">
+                app:cardBackgroundColor="#F3E9E2"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="18dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/recipes_you_can_make"
                         android:textColor="#1F1F1F"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -188,16 +192,17 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/suggested_recipe_description"
                         android:textColor="#5F5F5F"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <Button
                         android:id="@+id/btnViewSuggested"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="16dp"
                         android:backgroundTint="#6D4C41"
                         android:text="@string/view_recipes"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#FFFFFF"
+                        android:textAllCaps="false" />
 
                 </LinearLayout>
 

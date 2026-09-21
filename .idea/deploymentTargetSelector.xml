@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-09-17T18:33:01.722363800Z">
+        <DropdownSelection timestamp="2026-09-21T19:09:07.472437Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=RZ8X2002RCP" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\The Gaming Veno\.android\avd\Pixel_7.avd" />
             </handle>
           </Target>
         </DropdownSelection>
