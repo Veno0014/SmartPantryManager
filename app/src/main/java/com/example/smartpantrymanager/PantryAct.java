@@ -52,23 +52,23 @@ public class PantryAct extends AppCompatActivity {
 
         setContentView(R.layout.act_pantry);
 
-        // Connect Java to XML
+        // Connects Java code to XML code
         listPantry = findViewById(R.id.listPantry);
         txtEmptyPantry = findViewById(R.id.txtEmptyPantry);
         btnAddIngredient = findViewById(R.id.btnAddIngredient);
 
-        // Connect navigation
+        // Connects navigation
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         pantryToolbar = findViewById(R.id.pantryToolbar);
 
-        // Connect database
+        // Connects database
         databaseHelper = new DatabaseHelper(this);
 
-        // Create pantry list
+        // Creates pantry list
         pantryItems = new ArrayList<>();
 
-        // Create pantry adapter
+        // Creating pantry adapter
         pantryAdapter = new PantryApt(this, pantryItems, new PantryApt.OnPantryActionListener() {
 
             @Override
@@ -82,7 +82,7 @@ public class PantryAct extends AppCompatActivity {
             }
         });
 
-        // Connect adapter
+        // Connects adapter
         listPantry.setAdapter(pantryAdapter);
 
         // Empty pantry message
@@ -95,7 +95,7 @@ public class PantryAct extends AppCompatActivity {
 
         drawerToggle.syncState();
 
-        // Show Pantry as current page
+        // Shows pantry as current page
         navigationView.setCheckedItem(R.id.navPantry);
 
         // Hamburger menu
@@ -103,7 +103,7 @@ public class PantryAct extends AppCompatActivity {
 
             int id = item.getItemId();
 
-            // Home
+            // Home Pg
             if(id == R.id.navHome) {
                 Intent intent = new Intent(PantryAct.this, HomePgActivity.class);
                 startActivity(intent);
@@ -112,13 +112,13 @@ public class PantryAct extends AppCompatActivity {
                 return true;
             }
 
-            // Pantry
+            // Pantry Pg
             if(id == R.id.navPantry) {
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
 
-            // Recipes
+            // Recipes Pg
             if(id == R.id.navRecipes) {
                 Intent intent = new Intent(PantryAct.this, RecipesAct.class);
                 startActivity(intent);
@@ -127,7 +127,7 @@ public class PantryAct extends AppCompatActivity {
                 return true;
             }
 
-            // Suggested Recipes
+            // Suggested Recipes Pg
             if(id == R.id.navSuggested) {
                 Intent intent = new Intent(PantryAct.this, SuggestedRecipesAct.class);
                 startActivity(intent);
@@ -139,7 +139,7 @@ public class PantryAct extends AppCompatActivity {
             return false;
         });
 
-        // Add Ingredient
+        // Adding Ingredient
         btnAddIngredient.setOnClickListener(v -> {
             Intent intent = new Intent(PantryAct.this, IngredientsActivity.class);
             startActivity(intent);
@@ -159,7 +159,7 @@ public class PantryAct extends AppCompatActivity {
             }
         });
 
-        // Adjust screen around system bars
+        // Adjusts screen around system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
 
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -180,7 +180,7 @@ public class PantryAct extends AppCompatActivity {
         loadPantry(searchQuery);
     }
 
-    // Load pantry
+    // Loads pantry
     private void loadPantry(String searchQuery) {
 
         pantryItems.clear();
@@ -221,7 +221,7 @@ public class PantryAct extends AppCompatActivity {
 
         cursor.close();
 
-        // Change title when searching
+        // Changes the title when searching
         if(searchText.isEmpty()) {
             pantryToolbar.setTitle("My Pantry");
             txtEmptyPantry.setText("Your pantry is empty.");
@@ -233,7 +233,7 @@ public class PantryAct extends AppCompatActivity {
         pantryAdapter.notifyDataSetChanged();
     }
 
-    // Edit ingredient
+    // Editing ingredients
     private void editIngredient(PantryItems item) {
 
         Intent intent = new Intent(PantryAct.this, IngredientsActivity.class);
@@ -247,7 +247,7 @@ public class PantryAct extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Delete ingredient
+    // Deleting ingredient
     private void deleteIngredient(PantryItems item) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(PantryAct.this);

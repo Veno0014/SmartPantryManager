@@ -49,22 +49,22 @@ public class RecipesAct extends AppCompatActivity {
 
         setContentView(R.layout.act_recipes);
 
-        // Connect Java to XML
+        // Connects Java code to XML code
         listRecipes = findViewById(R.id.listRecipes);
         txtEmptyRecipes = findViewById(R.id.txtEmptyRecipes);
 
-        // Connect navigation
+        // Connects navigation
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         recipesToolbar = findViewById(R.id.recipesToolbar);
 
-        // Connect database
+        // Connects to database
         databaseHelper = new DatabaseHelper(this);
 
-        // Create recipe list
+        // Creates recipe list
         recipes = new ArrayList<>();
 
-        // Connect adapter
+        // Connects adapter
         recipesAdapter = new RecipesApt(this, recipes);
 
         listRecipes.setAdapter(recipesAdapter);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Add Ingredient page -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,6 +12,7 @@
     android:padding="25dp"
     tools:context=".IngredientsActivity">
 
+    <!-- Add Ingredient title -->
     <TextView
         android:id="@+id/txtIngredientTitle"
         android:layout_width="wrap_content"
@@ -24,6 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Ingredient name -->
     <AutoCompleteTextView
         android:id="@+id/editIngredientName"
         android:layout_width="0dp"
@@ -41,6 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtIngredientTitle" />
 
+    <!-- Ingredient quantity -->
     <EditText
         android:id="@+id/editQuantity"
         android:layout_width="0dp"
@@ -57,13 +61,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editIngredientName" />
 
+    <!-- Ingredient unit -->
     <EditText
         android:id="@+id/editUnit"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginTop="15dp"
         android:background="@android:drawable/edit_text"
-        android:hint="Unit e.g. pieces, g, ml"
+        android:hint="Unit example kg or ml"
         android:inputType="text"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
@@ -73,6 +78,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editQuantity" />
 
+    <!-- Optional expiry date -->
     <EditText
         android:id="@+id/editExpiryDate"
         android:layout_width="0dp"
@@ -81,7 +87,7 @@
         android:background="@android:drawable/edit_text"
         android:clickable="true"
         android:focusable="false"
-        android:hint="Expiry Date - Optional"
+        android:hint="Expiry Date"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:textColor="#000000"
@@ -90,6 +96,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editUnit" />
 
+    <!-- Save ingredient button -->
     <Button
         android:id="@+id/btnSaveIngredient"
         android:layout_width="0dp"
@@ -102,5 +109,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editExpiryDate" />
+
+    <!--Cancel button-->
+    <Button
+        android:id="@+id/btnCancelIngredient"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="12dp"
+        android:text="Cancel"
+        android:textColor="#1F1F1F"
+        android:textStyle="bold"
+        app:backgroundTint="#E0E0E0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveIngredient" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

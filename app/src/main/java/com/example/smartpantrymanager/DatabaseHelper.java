@@ -11,7 +11,7 @@ import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    // Database details
+    // Database connections
     private static final String DATABASE_NAME = "smart_pantry.db";
     private static final int DATABASE_VERSION = 5;
 
@@ -48,37 +48,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         createRecipeTables(db);
 
-        seedRecipes(db);
+        samplerecipes(db);
 
-        seedPantry(db);
+        samplepantry(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        // Add recipe tables
+        // Adds recipes to tables
         if(oldVersion < 2) {
             createRecipeTables(db);
         }
 
-        // Refresh recipe collection
+        // Refreshes recipes
         if(oldVersion < 4) {
 
             db.delete(TABLE_RECIPE_INGREDIENTS, null, null);
 
             db.delete(TABLE_RECIPES, null, null);
 
-            seedRecipes(db);
+            samplerecipes(db);
         }
 
-        // Add starting pantry stock
+        // Add pantry stock
         if(oldVersion < 5) {
 
-            seedPantry(db);
+            samplepantry(db);
         }
     }
 
-    // Create Pantry Table
+    // Creating pantry table
     private void createPantryTable(SQLiteDatabase db) {
 
         String createPantryTable = "CREATE TABLE IF NOT EXISTS " + TABLE_PANTRY + " (" +
@@ -91,7 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createPantryTable);
     }
 
-    // Create Recipe Tables
+    // Creating recipe tables
     private void createRecipeTables(SQLiteDatabase db) {
 
         String createRecipeTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " (" +
@@ -111,8 +111,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createRecipeIngredientsTable);
     }
 
-    // Add Ingredient
-    public long addIngredient(String name, double quantity, String unit, String expiryDate) {
+    // Adding ingredient
+    public long addingredient(String name, double quantity, String unit, String expiryDate) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -134,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_PANTRY, null, values);
     }
 
-    // Read Ingredients
+    // Reads through ingredients
     public Cursor getAllIngredients() {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -150,7 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    // Update Ingredient
+    // Updating ingredients
     public int updateIngredient(int id, String name, double quantity, String unit, String expiryDate) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -178,7 +178,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    // Delete Ingredient
+    // Deleting ingredients
     public int deleteIngredient(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -190,26 +190,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    // Preload Pantry Stock
-    private void seedPantry(SQLiteDatabase db) {
+    // Adding pantry stock into tab
+    private void samplepantry(SQLiteDatabase db) {
 
-        addPantryStockIfMissing(db, "leg mutton", 1.5, "kg");
-        addPantryStockIfMissing(db, "tomato", 12, "pieces");
-        addPantryStockIfMissing(db, "pizza base", 10, "pieces");
-        addPantryStockIfMissing(db, "onion", 8, "pieces");
-        addPantryStockIfMissing(db, "mushroom", 500, "g");
-        addPantryStockIfMissing(db, "bell pepper", 6, "pieces");
-        addPantryStockIfMissing(db, "cheese", 1, "kg");
-        addPantryStockIfMissing(db, "potato", 10, "pieces");
-        addPantryStockIfMissing(db, "rice", 2, "kg");
-        addPantryStockIfMissing(db, "breyani spice", 250, "g");
-        addPantryStockIfMissing(db, "curry powder", 250, "g");
-        addPantryStockIfMissing(db, "egg", 12, "pieces");
-        addPantryStockIfMissing(db, "butter", 500, "g");
+        add_missing_stock(db, "leg mutton", 1.5, "kg", "30/08/27");
+        add_missing_stock(db, "tomato", 12, "pieces", "30/08/27");
+        add_missing_stock(db, "pizza base", 10, "pieces", "30/08/27");
+        add_missing_stock(db, "onion", 8, "pieces", "30/08/27");
+        add_missing_stock(db, "mushroom", 500, "g", "30/08/27");
+        add_missing_stock(db, "bell pepper", 6, "pieces", "30/08/27");
+        add_missing_stock(db, "cheese", 1, "kg", "30/08/27");
+        add_missing_stock(db, "potato", 10, "pieces", "30/08/27");
+        add_missing_stock(db, "rice", 2, "kg", "");
+        add_missing_stock(db, "breyani spice", 250, "g", "30/08/27");
+        add_missing_stock(db, "curry powder", 250, "g", "30/08/27");
+        add_missing_stock(db, "egg", 12, "pieces", "30/08/27");
+        add_missing_stock(db, "butter", 500, "g", "30/08/27");
     }
 
-    // Add Pantry Stock Only If Missing
-    private void addPantryStockIfMissing(SQLiteDatabase db, String name, double quantity, String unit) {
+    // Adding Pantry stock if missing
+    private void add_missing_stock(SQLiteDatabase db, String name, double quantity, String unit, String expiryDate) {
 
         Cursor cursor = db.query(
                 TABLE_PANTRY,
@@ -232,13 +232,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(COL_NAME, name);
             values.put(COL_QUANTITY, quantity);
             values.put(COL_UNIT, unit);
-            values.putNull(COL_EXPIRY_DATE);
+            values.put(COL_EXPIRY_DATE, expiryDate);
 
             db.insert(TABLE_PANTRY, null, values);
         }
     }
 
-    // Read Recipes
+    // Reades through Recipes
     public Cursor getAllRecipes() {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -254,7 +254,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    // Read Recipe Ingredients
+    // Reades through Ingredients
     public Cursor getRecipeIngredients(int recipeId) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -270,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    // Get Recipe Ingredient Names
+    // Gets the Recipe & Ingredient Names
     public ArrayList<String> getRecipeIngredientNames() {
 
         ArrayList<String> ingredientNames = new ArrayList<>();
@@ -296,7 +296,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ingredientNames;
     }
 
-    // Add Recipe
+    // Adding Recipes
     private long addRecipe(SQLiteDatabase db, String name, String method) {
 
         ContentValues values = new ContentValues();
@@ -307,8 +307,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_RECIPES, null, values);
     }
 
-    // Add Recipe Ingredient
-    private void addRecipeIngredient(SQLiteDatabase db, long recipeId, String name, double quantity, String unit) {
+    // Adding Recipe Ingredients
+    private void adding_ingredient(SQLiteDatabase db, long recipeId, String name, double quantity, String unit) {
 
         ContentValues values = new ContentValues();
 
@@ -320,8 +320,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_RECIPE_INGREDIENTS, null, values);
     }
 
-    // Preload Recipes
-    private void seedRecipes(SQLiteDatabase db) {
+    // Loading recipes
+    private void samplerecipes(SQLiteDatabase db) {
 
         Cursor cursor = db.rawQuery(
                 "SELECT COUNT(*) FROM " + TABLE_RECIPES,
@@ -337,195 +337,195 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
 
-        // 1. Runny Eggs
+        // Runny Eggs
         long recipe1 = addRecipe(
                 db,
                 "Runny Eggs",
                 "Heat the butter in a pan. Crack the eggs into the pan and cook until the egg whites are firm while the yolks remain soft and runny."
         );
 
-        addRecipeIngredient(db, recipe1, "egg", 2, "pieces");
-        addRecipeIngredient(db, recipe1, "butter", 10, "g");
+        adding_ingredient(db, recipe1, "egg", 2, "pieces");
+        adding_ingredient(db, recipe1, "butter", 10, "g");
 
-        // 2. Bunny Chow
+        // Bunny Chow
         long recipe2 = addRecipe(
                 db,
                 "Bunny Chow",
                 "Cook the mutton with onion, tomato, potato and curry powder until tender. Hollow out the bread loaf and fill it with the prepared curry."
         );
 
-        addRecipeIngredient(db, recipe2, "bread loaf", 1, "pieces");
-        addRecipeIngredient(db, recipe2, "mutton", 500, "g");
-        addRecipeIngredient(db, recipe2, "potato", 2, "pieces");
-        addRecipeIngredient(db, recipe2, "onion", 1, "pieces");
-        addRecipeIngredient(db, recipe2, "tomato", 2, "pieces");
-        addRecipeIngredient(db, recipe2, "curry powder", 20, "g");
+        adding_ingredient(db, recipe2, "bread loaf", 1, "pieces");
+        adding_ingredient(db, recipe2, "mutton", 500, "g");
+        adding_ingredient(db, recipe2, "potato", 2, "pieces");
+        adding_ingredient(db, recipe2, "onion", 1, "pieces");
+        adding_ingredient(db, recipe2, "tomato", 2, "pieces");
+        adding_ingredient(db, recipe2, "curry powder", 20, "g");
 
-        // 3. Tikka Chicken
+        // Tikka Chicken
         long recipe3 = addRecipe(
                 db,
                 "Tikka Chicken",
                 "Mix the chicken with yoghurt and tikka spice. Allow the chicken to marinate and then cook until fully cooked and golden."
         );
 
-        addRecipeIngredient(db, recipe3, "chicken", 500, "g");
-        addRecipeIngredient(db, recipe3, "yoghurt", 150, "ml");
-        addRecipeIngredient(db, recipe3, "tikka spice", 20, "g");
+        adding_ingredient(db, recipe3, "chicken", 500, "g");
+        adding_ingredient(db, recipe3, "yoghurt", 150, "ml");
+        adding_ingredient(db, recipe3, "tikka spice", 20, "g");
 
-        // 4. Phutu and Mutton Curry
+        // Phutu and Mutton Curry
         long recipe4 = addRecipe(
                 db,
                 "Phutu and Mutton Curry",
                 "Prepare the phutu using maize meal and water. Cook the mutton with onion, tomato and curry powder until tender. Serve the curry with the phutu."
         );
 
-        addRecipeIngredient(db, recipe4, "maize meal", 250, "g");
-        addRecipeIngredient(db, recipe4, "mutton", 500, "g");
-        addRecipeIngredient(db, recipe4, "onion", 1, "pieces");
-        addRecipeIngredient(db, recipe4, "tomato", 2, "pieces");
-        addRecipeIngredient(db, recipe4, "curry powder", 20, "g");
+        adding_ingredient(db, recipe4, "maize meal", 250, "g");
+        adding_ingredient(db, recipe4, "mutton", 500, "g");
+        adding_ingredient(db, recipe4, "onion", 1, "pieces");
+        adding_ingredient(db, recipe4, "tomato", 2, "pieces");
+        adding_ingredient(db, recipe4, "curry powder", 20, "g");
 
-        // 5. Phutu and Chicken Curry
+        // Phutu and Chicken Curry
         long recipe5 = addRecipe(
                 db,
                 "Phutu and Chicken Curry",
                 "Prepare the phutu using maize meal and water. Cook the chicken with onion, tomato and curry powder until tender. Serve the chicken curry with the phutu."
         );
 
-        addRecipeIngredient(db, recipe5, "maize meal", 250, "g");
-        addRecipeIngredient(db, recipe5, "chicken", 500, "g");
-        addRecipeIngredient(db, recipe5, "onion", 1, "pieces");
-        addRecipeIngredient(db, recipe5, "tomato", 2, "pieces");
-        addRecipeIngredient(db, recipe5, "curry powder", 20, "g");
+        adding_ingredient(db, recipe5, "maize meal", 250, "g");
+        adding_ingredient(db, recipe5, "chicken", 500, "g");
+        adding_ingredient(db, recipe5, "onion", 1, "pieces");
+        adding_ingredient(db, recipe5, "tomato", 2, "pieces");
+        adding_ingredient(db, recipe5, "curry powder", 20, "g");
 
-        // 6. French Toast
+        // French Toast
         long recipe6 = addRecipe(
                 db,
                 "French Toast",
                 "Beat the egg and milk together. Dip the bread into the mixture and fry in butter until golden brown on both sides."
         );
 
-        addRecipeIngredient(db, recipe6, "bread", 2, "slices");
-        addRecipeIngredient(db, recipe6, "egg", 1, "pieces");
-        addRecipeIngredient(db, recipe6, "milk", 100, "ml");
-        addRecipeIngredient(db, recipe6, "butter", 10, "g");
+        adding_ingredient(db, recipe6, "bread", 2, "slices");
+        adding_ingredient(db, recipe6, "egg", 1, "pieces");
+        adding_ingredient(db, recipe6, "milk", 100, "ml");
+        adding_ingredient(db, recipe6, "butter", 10, "g");
 
-        // 7. Roasted Chicken
+        //Roasted Chicken
         long recipe7 = addRecipe(
                 db,
                 "Roasted Chicken",
                 "Season the chicken with salt and oil. Place it in the oven and roast until golden brown and completely cooked."
         );
 
-        addRecipeIngredient(db, recipe7, "chicken", 1, "pieces");
-        addRecipeIngredient(db, recipe7, "oil", 30, "ml");
-        addRecipeIngredient(db, recipe7, "salt", 5, "g");
+        adding_ingredient(db, recipe7, "chicken", 1, "pieces");
+        adding_ingredient(db, recipe7, "oil", 30, "ml");
+        adding_ingredient(db, recipe7, "salt", 5, "g");
 
-        // 8. Chicken Burger and Chips
+        // Chicken Burger and Chips
         long recipe8 = addRecipe(
                 db,
                 "Chicken Burger and Chips",
                 "Cook the chicken patty. Place it inside the burger bun with lettuce and tomato. Cut the potatoes into chips and fry until golden."
         );
 
-        addRecipeIngredient(db, recipe8, "chicken patty", 1, "pieces");
-        addRecipeIngredient(db, recipe8, "burger bun", 1, "pieces");
-        addRecipeIngredient(db, recipe8, "potato", 2, "pieces");
-        addRecipeIngredient(db, recipe8, "lettuce", 2, "leaves");
-        addRecipeIngredient(db, recipe8, "tomato", 1, "pieces");
-        addRecipeIngredient(db, recipe8, "oil", 250, "ml");
+        adding_ingredient(db, recipe8, "chicken patty", 1, "pieces");
+        adding_ingredient(db, recipe8, "burger bun", 1, "pieces");
+        adding_ingredient(db, recipe8, "potato", 2, "pieces");
+        adding_ingredient(db, recipe8, "lettuce", 2, "leaves");
+        adding_ingredient(db, recipe8, "tomato", 1, "pieces");
+        adding_ingredient(db, recipe8, "oil", 250, "ml");
 
-        // 9. Mutton Burger and Chips
+        // Mutton Burger and Chips
         long recipe9 = addRecipe(
                 db,
                 "Mutton Burger and Chips",
                 "Cook the mutton patty. Place it inside the burger bun with lettuce and tomato. Cut the potatoes into chips and fry until golden."
         );
 
-        addRecipeIngredient(db, recipe9, "mutton patty", 1, "pieces");
-        addRecipeIngredient(db, recipe9, "burger bun", 1, "pieces");
-        addRecipeIngredient(db, recipe9, "potato", 2, "pieces");
-        addRecipeIngredient(db, recipe9, "lettuce", 2, "leaves");
-        addRecipeIngredient(db, recipe9, "tomato", 1, "pieces");
-        addRecipeIngredient(db, recipe9, "oil", 250, "ml");
+        adding_ingredient(db, recipe9, "mutton patty", 1, "pieces");
+        adding_ingredient(db, recipe9, "burger bun", 1, "pieces");
+        adding_ingredient(db, recipe9, "potato", 2, "pieces");
+        adding_ingredient(db, recipe9, "lettuce", 2, "leaves");
+        adding_ingredient(db, recipe9, "tomato", 1, "pieces");
+        adding_ingredient(db, recipe9, "oil", 250, "ml");
 
-        // 10. Mushroom and Veg Sausage Omelette
+        // Mushroom and Veg Sausage Omelette
         long recipe10 = addRecipe(
                 db,
                 "Mushroom and Veg Sausage Omelette",
                 "Slice the mushrooms and vegetarian sausage and lightly fry them. Beat the eggs, pour them into the pan, add the filling and fold the omelette."
         );
 
-        addRecipeIngredient(db, recipe10, "egg", 3, "pieces");
-        addRecipeIngredient(db, recipe10, "mushroom", 100, "g");
-        addRecipeIngredient(db, recipe10, "veg sausage", 2, "pieces");
-        addRecipeIngredient(db, recipe10, "butter", 10, "g");
+        adding_ingredient(db, recipe10, "egg", 3, "pieces");
+        adding_ingredient(db, recipe10, "mushroom", 100, "g");
+        adding_ingredient(db, recipe10, "veg sausage", 2, "pieces");
+        adding_ingredient(db, recipe10, "butter", 10, "g");
 
-        // 11. Egg Roll
+        // Egg Roll
         long recipe11 = addRecipe(
                 db,
                 "Egg Roll",
                 "Beat and cook the eggs in a pan. Place the cooked eggs inside the wrap and roll it tightly before serving."
         );
 
-        addRecipeIngredient(db, recipe11, "egg", 2, "pieces");
-        addRecipeIngredient(db, recipe11, "wrap", 1, "pieces");
-        addRecipeIngredient(db, recipe11, "butter", 10, "g");
+        adding_ingredient(db, recipe11, "egg", 2, "pieces");
+        adding_ingredient(db, recipe11, "wrap", 1, "pieces");
+        adding_ingredient(db, recipe11, "butter", 10, "g");
 
-        // 12. Chicken Breyani
+        // Chicken Breyani
         long recipe12 = addRecipe(
                 db,
                 "Chicken Breyani",
                 "Cook the chicken with onion and breyani spice. Add the rice and potatoes and cook until the rice is tender and the chicken is fully cooked."
         );
 
-        addRecipeIngredient(db, recipe12, "chicken", 500, "g");
-        addRecipeIngredient(db, recipe12, "rice", 300, "g");
-        addRecipeIngredient(db, recipe12, "potato", 2, "pieces");
-        addRecipeIngredient(db, recipe12, "onion", 1, "pieces");
-        addRecipeIngredient(db, recipe12, "breyani spice", 20, "g");
+        adding_ingredient(db, recipe12, "chicken", 500, "g");
+        adding_ingredient(db, recipe12, "rice", 300, "g");
+        adding_ingredient(db, recipe12, "potato", 2, "pieces");
+        adding_ingredient(db, recipe12, "onion", 1, "pieces");
+        adding_ingredient(db, recipe12, "breyani spice", 20, "g");
 
-        // 13. Mutton Breyani
+        // Mutton Breyani
         long recipe13 = addRecipe(
                 db,
                 "Mutton Breyani",
                 "Cook the mutton with onion and breyani spice until tender. Add the rice and potatoes and cook until the rice is ready."
         );
 
-        addRecipeIngredient(db, recipe13, "mutton", 500, "g");
-        addRecipeIngredient(db, recipe13, "rice", 300, "g");
-        addRecipeIngredient(db, recipe13, "potato", 2, "pieces");
-        addRecipeIngredient(db, recipe13, "onion", 1, "pieces");
-        addRecipeIngredient(db, recipe13, "breyani spice", 20, "g");
+        adding_ingredient(db, recipe13, "mutton", 500, "g");
+        adding_ingredient(db, recipe13, "rice", 300, "g");
+        adding_ingredient(db, recipe13, "potato", 2, "pieces");
+        adding_ingredient(db, recipe13, "onion", 1, "pieces");
+        adding_ingredient(db, recipe13, "breyani spice", 20, "g");
 
-        // 14. Wagyu and Chips
+        // Wagyu and Chips
         long recipe14 = addRecipe(
                 db,
                 "Wagyu and Chips",
                 "Season and cook the Wagyu steak to the desired level. Cut the potatoes into chips and fry until golden and crispy."
         );
 
-        addRecipeIngredient(db, recipe14, "wagyu steak", 250, "g");
-        addRecipeIngredient(db, recipe14, "potato", 2, "pieces");
-        addRecipeIngredient(db, recipe14, "oil", 250, "ml");
-        addRecipeIngredient(db, recipe14, "salt", 5, "g");
+        adding_ingredient(db, recipe14, "wagyu steak", 250, "g");
+        adding_ingredient(db, recipe14, "potato", 2, "pieces");
+        adding_ingredient(db, recipe14, "oil", 250, "ml");
+        adding_ingredient(db, recipe14, "salt", 5, "g");
 
-        // 15. Veg Todays Pizza
+        // Veg Todays Pizza
         long recipe15 = addRecipe(
                 db,
                 "Veg Todays Pizza",
                 "Place the pizza base on a baking tray. Add the tomato, onion, mushroom and bell pepper. Sprinkle the cheese over the vegetables and bake until the cheese has melted and the pizza is golden."
         );
 
-        addRecipeIngredient(db, recipe15, "pizza base", 1, "pieces");
-        addRecipeIngredient(db, recipe15, "tomato", 1, "pieces");
-        addRecipeIngredient(db, recipe15, "onion", 1, "pieces");
-        addRecipeIngredient(db, recipe15, "mushroom", 100, "g");
-        addRecipeIngredient(db, recipe15, "bell pepper", 1, "pieces");
-        addRecipeIngredient(db, recipe15, "cheese", 100, "g");
+        adding_ingredient(db, recipe15, "pizza base", 1, "pieces");
+        adding_ingredient(db, recipe15, "tomato", 1, "pieces");
+        adding_ingredient(db, recipe15, "onion", 1, "pieces");
+        adding_ingredient(db, recipe15, "mushroom", 100, "g");
+        adding_ingredient(db, recipe15, "bell pepper", 1, "pieces");
+        adding_ingredient(db, recipe15, "cheese", 100, "g");
     }
 
-    // Get Suggested Recipes
+    // Creates suggested recipes
     public ArrayList<Recipes> getSuggestedRecipes() {
 
         ArrayList<Recipes> suggestedRecipes = new ArrayList<>();
@@ -574,7 +574,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 double requiredQuantity = ingredientCursor.getDouble(quantityIndex);
                 String requiredUnit = ingredientCursor.getString(unitIndex);
 
-                if(!hasEnoughIngredient(db, requiredName, requiredQuantity, requiredUnit)) {
+                if(!full_ingredient(db, requiredName, requiredQuantity, requiredUnit)) {
 
                     canMakeRecipe = false;
 
@@ -601,8 +601,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return suggestedRecipes;
     }
 
-    // Check Pantry Ingredient
-    private boolean hasEnoughIngredient(SQLiteDatabase db, String requiredName, double requiredQuantity, String requiredUnit) {
+    // Inspects ingredients in pantry
+    private boolean full_ingredient(SQLiteDatabase db, String requiredName, double requiredQuantity, String requiredUnit) {
 
         Cursor pantryCursor = db.query(
                 TABLE_PANTRY,
@@ -620,7 +620,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         double totalQuantity = 0;
 
-        String requiredIngredient = normalizeIngredientName(requiredName);
+        String requiredIngredient = ingredient_naming(requiredName);
 
         String requiredBaseUnit = getBaseUnit(requiredUnit);
 
@@ -630,13 +630,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             double pantryQuantity = pantryCursor.getDouble(pantryQuantityIndex);
             String pantryUnit = pantryCursor.getString(pantryUnitIndex);
 
-            String pantryIngredient = normalizeIngredientName(pantryName);
+            String pantryIngredient = ingredient_naming(pantryName);
 
             String pantryBaseUnit = getBaseUnit(pantryUnit);
 
             if(requiredIngredient.equals(pantryIngredient) && requiredBaseUnit.equals(pantryBaseUnit)) {
 
-                totalQuantity += convertToBaseQuantity(
+                totalQuantity += Converting_quantity(
                         pantryQuantity,
                         pantryUnit
                 );
@@ -645,7 +645,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         pantryCursor.close();
 
-        double requiredBaseQuantity = convertToBaseQuantity(
+        double requiredBaseQuantity = Converting_quantity(
                 requiredQuantity,
                 requiredUnit
         );
@@ -653,8 +653,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return totalQuantity >= requiredBaseQuantity;
     }
 
-    // Normalize Ingredient Name
-    private String normalizeIngredientName(String name) {
+    // standard Ingredient Name
+    private String ingredient_naming(String name) {
 
         String value = name.toLowerCase(Locale.ROOT).trim();
 
@@ -697,7 +697,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
-    // Normalize Units
+    // Using different measurements
     private String getBaseUnit(String unit) {
 
         String value = unit.toLowerCase(Locale.ROOT).trim();
@@ -751,8 +751,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
-    // Convert Units
-    private double convertToBaseQuantity(double quantity, String unit) {
+    // Converting units
+    private double Converting_quantity(double quantity, String unit) {
 
         String value = unit.toLowerCase(Locale.ROOT).trim();
 
@@ -777,7 +777,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return quantity;
     }
 
-    // Add Custom Recipe
+    // Adding Custom Recipe
     public long addCustomRecipe(String name, String method, ArrayList<String> ingredientNames, ArrayList<Double> quantities, ArrayList<String> units) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -796,7 +796,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             for(int i = 0; i < ingredientNames.size(); i++) {
 
-                addRecipeIngredient(
+                adding_ingredient(
                         db,
                         recipeId,
                         ingredientNames.get(i),

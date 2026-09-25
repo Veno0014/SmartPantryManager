@@ -47,7 +47,7 @@ public class SuggestedRecipesAct extends AppCompatActivity {
 
         setContentView(R.layout.act_suggested_recipes);
 
-        // Connect Java to XML
+        // Connects java code to XML
         listSuggestedRecipes = findViewById(R.id.listSuggestedRecipes);
         txtNoSuggestedRecipes = findViewById(R.id.txtNoSuggestedRecipes);
 
@@ -56,10 +56,10 @@ public class SuggestedRecipesAct extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationView);
         suggestedToolbar = findViewById(R.id.suggestedToolbar);
 
-        // Connect database
+        // Connects database
         databaseHelper = new DatabaseHelper(this);
 
-        // Create suggested recipe list
+        // Creates suggested recipe list
         suggestedRecipes = new ArrayList<>();
 
         // Connect adapter
@@ -70,7 +70,7 @@ public class SuggestedRecipesAct extends AppCompatActivity {
         // Empty message
         listSuggestedRecipes.setEmptyView(txtNoSuggestedRecipes);
 
-        // Create hamburger button
+        // Creating hamburger button
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -163,7 +163,7 @@ public class SuggestedRecipesAct extends AppCompatActivity {
             }
         });
 
-        // Adjust screen around system bars
+        // Adjusting screen around system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
 
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -189,7 +189,7 @@ public class SuggestedRecipesAct extends AppCompatActivity {
         loadSuggestedRecipes();
     }
 
-    // Load Suggested Recipes
+    // Load suggested recipes
     private void loadSuggestedRecipes() {
 
         suggestedRecipes.clear();

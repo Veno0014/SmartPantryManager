@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Home page -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,19 +11,21 @@
     android:background="#FFFFFF"
     tools:context=".HomePgActivity">
 
+    <!-- Display pantry name and menu -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
         android:minHeight="?attr/actionBarSize"
-        android:title="@string/my_pantry"
-        android:titleTextColor="#1F1F1F"
+        android:background="#FFFFFF"
+        app:title="@string/my_pantry"
+        app:titleTextColor="#000000"
         app:menu="@menu/home_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Scroll home page content -->
     <ScrollView
         android:id="@+id/homeScroll"
         android:layout_width="0dp"
@@ -33,6 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topAppBar">
 
+        <!-- Home page content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,6 +46,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="100dp">
 
+            <!-- Welcome message -->
             <TextView
                 android:id="@+id/txtHello"
                 android:layout_width="wrap_content"
@@ -50,6 +55,7 @@
                 android:textColor="#5F5F5F"
                 android:textSize="14sp" />
 
+            <!-- Home question -->
             <TextView
                 android:id="@+id/txtHeading"
                 android:layout_width="wrap_content"
@@ -60,6 +66,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
+            <!-- Search recipes or pantry items -->
             <EditText
                 android:id="@+id/editSearch"
                 android:layout_width="match_parent"
@@ -76,6 +83,7 @@
                 android:textColorHint="#777777"
                 android:textSize="14sp" />
 
+            <!-- Quick access section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,6 +93,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <!-- Pantry and Recipes cards -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,6 +101,7 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
+                <!-- Pantry card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPantry"
                     android:layout_width="0dp"
@@ -102,6 +112,7 @@
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp">
 
+                    <!-- Centre Pantry text -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -109,6 +120,7 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
+                        <!-- Pantry card title -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -122,6 +134,7 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <!-- Recipes card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardRecipes"
                     android:layout_width="0dp"
@@ -132,6 +145,7 @@
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp">
 
+                    <!-- Centre Recipes text -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -139,6 +153,7 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
+                        <!-- Recipes card title -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -154,6 +169,7 @@
 
             </LinearLayout>
 
+            <!-- Suggested recipes section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -163,6 +179,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <!-- Suggested recipes card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardSuggestedRecipe"
                 android:layout_width="match_parent"
@@ -172,12 +189,14 @@
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp">
 
+                <!-- Suggested recipes content -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="18dp">
 
+                    <!-- Suggested recipes title -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -186,6 +205,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
+                    <!-- Suggested recipes description -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -194,6 +214,7 @@
                         android:textColor="#5F5F5F"
                         android:textSize="13sp" />
 
+                    <!-- View suggested recipes -->
                     <Button
                         android:id="@+id/btnViewSuggested"
                         android:layout_width="wrap_content"
@@ -212,6 +233,7 @@
 
     </ScrollView>
 
+    <!-- Add ingredient or recipe button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"

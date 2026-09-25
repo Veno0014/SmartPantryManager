@@ -15,6 +15,7 @@ public class RecipesApt extends BaseAdapter {
     private Context context;
     private ArrayList<Recipes> recipes;
 
+    //Adpator constructor
     public RecipesApt(Context context, ArrayList<Recipes> recipes) {
         this.context = context;
         this.recipes = recipes;
@@ -42,7 +43,7 @@ public class RecipesApt extends BaseAdapter {
 
         if(convertView == null) {
 
-            // Connect Adapter to items_recipes.xml
+            // Connects adapter to items_recipes.xml
             convertView = LayoutInflater.from(context).inflate(R.layout.items_recipes, parent, false);
 
             holder = new ViewHolder();

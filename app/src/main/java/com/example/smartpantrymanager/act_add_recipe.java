@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 public class act_add_recipe extends AppCompatActivity {
 
-    EditText editRecipeName;
-    EditText editRecipeIngredients;
-    EditText editRecipeMethod;
+    EditText edit_RecipeName;
+    EditText edit_recipe_ingred;
+    EditText edit_recipe_method;
 
-    Button btnSaveRecipe;
-    Button btnCancelRecipe;
+    Button save_button;
+    Button cancel_button;
 
     DatabaseHelper databaseHelper;
 
@@ -27,22 +27,22 @@ public class act_add_recipe extends AppCompatActivity {
 
         setContentView(R.layout.act_add_recipe);
 
-        // Connect Java to XML
-        editRecipeName = findViewById(R.id.editRecipeName);
-        editRecipeIngredients = findViewById(R.id.editRecipeIngredients);
-        editRecipeMethod = findViewById(R.id.editRecipeMethod);
+        // Connecting Java code  to XML code
+        edit_RecipeName = findViewById(R.id.editRecipeName);
+        edit_recipe_ingred = findViewById(R.id.editRecipeIngredients);
+        edit_recipe_method = findViewById(R.id.editRecipeMethod);
 
-        btnSaveRecipe = findViewById(R.id.btnSaveRecipe);
-        btnCancelRecipe = findViewById(R.id.btnCancelRecipe);
+        save_button = findViewById(R.id.btnSaveRecipe);
+        cancel_button = findViewById(R.id.btnCancelRecipe);
 
-        // Connect database
+        // Connecting database
         databaseHelper = new DatabaseHelper(this);
 
-        // Save Recipe
-        btnSaveRecipe.setOnClickListener(v -> saveRecipe());
+        // Save recipe button
+        save_button.setOnClickListener(v -> saveRecipe());
 
-        // Cancel and return to Home
-        btnCancelRecipe.setOnClickListener(v -> {
+        // Cancel button and fucntion to return home
+        cancel_button.setOnClickListener(v -> {
 
             Intent intent = new Intent(
                     act_add_recipe.this,
@@ -57,32 +57,32 @@ public class act_add_recipe extends AppCompatActivity {
 
     private void saveRecipe() {
 
-        String recipeName = editRecipeName.getText().toString().trim();
+        String recipeName = edit_RecipeName.getText().toString().trim();
 
-        String ingredientsText = editRecipeIngredients.getText().toString().trim();
+        String ingredientsText = edit_RecipeName.getText().toString().trim();
 
-        String method = editRecipeMethod.getText().toString().trim();
+        String method = edit_recipe_method.getText().toString().trim();
 
-        // Check Recipe Name
+        // Checking for recipe
         if(recipeName.isEmpty()) {
 
-            editRecipeName.setError("Please enter a recipe name");
+            edit_RecipeName.setError("Please enter a recipe name");
 
             return;
         }
 
-        // Check Ingredients
+        // Searching for ingredients
         if(ingredientsText.isEmpty()) {
 
-            editRecipeIngredients.setError("Please enter ingredients");
+            edit_recipe_ingred.setError("Please enter ingredients");
 
             return;
         }
 
-        // Check Cooking Steps
+        // Showing cooking steps
         if(method.isEmpty()) {
 
-            editRecipeMethod.setError("Please enter cooking steps");
+            edit_recipe_method.setError("Please enter cooking steps");
 
             return;
         }
@@ -106,7 +106,7 @@ public class act_add_recipe extends AppCompatActivity {
 
                 if(ingredientParts.length != 3) {
 
-                    editRecipeIngredients.setError(
+                    edit_recipe_ingred.setError(
                             "Use: Name, Quantity, Unit on line " + (i + 1)
                     );
 
@@ -127,7 +127,7 @@ public class act_add_recipe extends AppCompatActivity {
 
                 } catch(NumberFormatException e) {
 
-                    editRecipeIngredients.setError(
+                    edit_recipe_ingred.setError(
                             "Invalid quantity on line " + (i + 1)
                     );
 
@@ -136,7 +136,7 @@ public class act_add_recipe extends AppCompatActivity {
 
                 if(ingredientName.isEmpty()) {
 
-                    editRecipeIngredients.setError(
+                    edit_recipe_ingred.setError(
                             "Ingredient name missing on line " + (i + 1)
                     );
 
@@ -145,7 +145,7 @@ public class act_add_recipe extends AppCompatActivity {
 
                 if(ingredientQuantity <= 0) {
 
-                    editRecipeIngredients.setError(
+                    edit_recipe_ingred.setError(
                             "Quantity must be more than 0 on line " + (i + 1)
                     );
 
@@ -154,7 +154,7 @@ public class act_add_recipe extends AppCompatActivity {
 
                 if(ingredientUnit.isEmpty()) {
 
-                    editRecipeIngredients.setError(
+                    edit_recipe_ingred.setError(
                             "Unit missing on line " + (i + 1)
                     );
 

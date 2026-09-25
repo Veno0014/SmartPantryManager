@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Login components
+    // GUI
     EditText editUsername;
     EditText editPassword;
     Button btnLogin;
@@ -25,12 +25,12 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Connect Java to XML
+        // Connects java function is XML display
         editUsername = findViewById(R.id.editUsername);
         editPassword = findViewById(R.id.editPassword);
         btnLogin = findViewById(R.id.btnLogin);
 
-        // Adjust screen around system bars
+        // Adjusting screen around system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -41,25 +41,25 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(v -> GUI());
     }
 
-    // Login validation
+    // checking login credentials
     private void GUI(){
 
         String name = editUsername.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
 
-        // Check username
+        // Checks username
         if(name.isEmpty()){
             editUsername.setError("Enter username");
             return;
         }
 
-        // Check password
+        // Checks password
         if(password.isEmpty()){
             editPassword.setError("Enter password");
             return;
         }
 
-        // Check login details
+        // Checks login details
         if(name.equals("admin") && password.equals("admin123")){
 
             Toast.makeText(MainActivity.this, "Welcome Sir", Toast.LENGTH_SHORT).show();

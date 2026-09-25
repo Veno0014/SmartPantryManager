@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Recipe item -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -9,6 +10,7 @@
     android:orientation="vertical"
     android:padding="18dp">
 
+    <!-- Recipe name -->
     <TextView
         android:id="@+id/txtRecipeName"
         android:layout_width="wrap_content"
@@ -18,6 +20,7 @@
         android:textSize="19sp"
         android:textStyle="bold" />
 
+    <!-- Recipe method -->
     <TextView
         android:id="@+id/txtRecipeMethod"
         android:layout_width="match_parent"

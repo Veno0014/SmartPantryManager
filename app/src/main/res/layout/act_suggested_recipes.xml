@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     tools:context=".SuggestedRecipesAct">
 
-    <!-- Main Suggested Recipes Screen -->
+    <!-- Suggested recipes screen -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Description -->
+        <!-- Suggestions on possible meals -->
         <TextView
             android:id="@+id/txtSuggestedInfo"
             android:layout_width="0dp"
@@ -46,7 +46,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/suggestedToolbar" />
 
-        <!-- Suggested Recipe List -->
+        <!-- Suggested recipe list -->
         <ListView
             android:id="@+id/listSuggestedRecipes"
             android:layout_width="0dp"
@@ -62,7 +62,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSuggestedInfo" />
 
-        <!-- No Suggested Recipes Message -->
+        <!-- No Suggested recipes message -->
         <TextView
             android:id="@+id/txtNoSuggestedRecipes"
             android:layout_width="0dp"
@@ -70,7 +70,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:gravity="center"
-            android:text="No recipes match your pantry yet. Add more ingredients to see suggestions."
+            android:text="no ingrendients in pantry to make suggestions, please add stock"
             android:textColor="#666666"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/listSuggestedRecipes"
@@ -80,7 +80,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Hamburger Navigation Drawer -->
+    <!-- Hamburger Navigation heading -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="280dp"

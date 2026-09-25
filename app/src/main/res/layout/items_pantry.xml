@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Ingredient item -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -9,7 +10,7 @@
     android:orientation="vertical"
     android:padding="15dp">
 
-    <!-- Ingredient Name -->
+    <!-- Ingredient name -->
     <TextView
         android:id="@+id/txtItemName"
         android:layout_width="wrap_content"
@@ -19,7 +20,7 @@
         android:textSize="19sp"
         android:textStyle="bold" />
 
-    <!-- Quantity and Unit -->
+    <!-- Quantity and unit -->
     <TextView
         android:id="@+id/txtItemQuantity"
         android:layout_width="wrap_content"
@@ -29,7 +30,7 @@
         android:textColor="#444444"
         android:textSize="15sp" />
 
-    <!-- Expiry Date -->
+    <!-- Expiry date -->
     <TextView
         android:id="@+id/txtItemExpiry"
         android:layout_width="wrap_content"
@@ -39,14 +40,14 @@
         android:textColor="#666666"
         android:textSize="14sp" />
 
-    <!-- Edit and Delete Buttons -->
+    <!-- Edit and Delete buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
 
-        <!-- Edit Ingredient -->
+        <!-- Edit ingredient -->
         <Button
             android:id="@+id/btnEditIngredient"
             android:layout_width="0dp"
@@ -55,7 +56,7 @@
             android:layout_weight="1"
             android:text="Edit" />
 
-        <!-- Delete Ingredient -->
+        <!-- Delete ingredient -->
         <Button
             android:id="@+id/btnDeleteIngredient"
             android:layout_width="0dp"

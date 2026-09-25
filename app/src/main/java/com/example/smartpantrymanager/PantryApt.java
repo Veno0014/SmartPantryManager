@@ -71,10 +71,10 @@ public class PantryApt extends BaseAdapter {
 
         PantryItems item = getItem(position);
 
-        // Ingredient name
+        // Names of Ingredients
         holder.txtName.setText(item.getName());
 
-        // Quantity and unit
+        // Units
         String quantity;
 
         if(item.getQuantity() == Math.floor(item.getQuantity())){
@@ -85,7 +85,7 @@ public class PantryApt extends BaseAdapter {
 
         holder.txtQuantity.setText(quantity + " " + item.getUnit());
 
-        // Expiry date
+        // Expiration date
         if(item.getExpiryDate() == null || item.getExpiryDate().isEmpty()){
             holder.txtExpiry.setText("No expiry date");
         } else {
