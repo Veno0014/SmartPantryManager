@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,13 +14,22 @@ import java.util.ArrayList;
 public class act_add_recipe extends AppCompatActivity {
 
     EditText edit_RecipeName;
-    EditText edit_recipe_ingred;
+    EditText edit_ingredient_name;
+    EditText edit_ingredient_quantity;
+    EditText edit_ingredient_unit;
     EditText edit_recipe_method;
 
+    TextView txt_added_ingredients;
+
+    Button add_ingredient_button;
     Button save_button;
     Button cancel_button;
 
     DatabaseHelper databaseHelper;
+
+    ArrayList<String> ingredientNames = new ArrayList<>();
+    ArrayList<Double> ingredientQuantities = new ArrayList<>();
+    ArrayList<String> ingredientUnits = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +39,22 @@ public class act_add_recipe extends AppCompatActivity {
 
         // Connecting Java code  to XML code
         edit_RecipeName = findViewById(R.id.editRecipeName);
-        edit_recipe_ingred = findViewById(R.id.editRecipeIngredients);
+        edit_ingredient_name = findViewById(R.id.editIngredientName);
+        edit_ingredient_quantity = findViewById(R.id.editIngredientQuantity);
+        edit_ingredient_unit = findViewById(R.id.editIngredientUnit);
         edit_recipe_method = findViewById(R.id.editRecipeMethod);
 
+        txt_added_ingredients = findViewById(R.id.txtAddedIngredients);
+
+        add_ingredient_button = findViewById(R.id.btnAddRecipeIngredient);
         save_button = findViewById(R.id.btnSaveRecipe);
         cancel_button = findViewById(R.id.btnCancelRecipe);
 
         // Connecting database
         databaseHelper = new DatabaseHelper(this);
+
+        // Add ingredient button
+        add_ingredient_button.setOnClickListener(v -> addIngredient());
 
         // Save recipe button
         save_button.setOnClickListener(v -> saveRecipe());
@@ -55,11 +73,110 @@ public class act_add_recipe extends AppCompatActivity {
         });
     }
 
+    private void addIngredient() {
+
+        String ingredientName = edit_ingredient_name.getText().toString().trim();
+
+        String quantityText = edit_ingredient_quantity.getText().toString().trim();
+
+        String ingredientUnit = edit_ingredient_unit.getText().toString().trim();
+
+        // Searching for ingredients
+        if(ingredientName.isEmpty()) {
+
+            edit_ingredient_name.setError("Please enter ingredient name");
+
+            return;
+        }
+
+        if(quantityText.isEmpty()) {
+
+            edit_ingredient_quantity.setError("Please enter quantity");
+
+            return;
+        }
+
+        if(ingredientUnit.isEmpty()) {
+
+            edit_ingredient_unit.setError("Please enter unit");
+
+            return;
+        }
+
+        double ingredientQuantity;
+
+        try {
+
+            ingredientQuantity = Double.parseDouble(quantityText);
+
+        } catch(NumberFormatException e) {
+
+            edit_ingredient_quantity.setError("Please enter a valid quantity");
+
+            return;
+        }
+
+        if(ingredientQuantity <= 0) {
+
+            edit_ingredient_quantity.setError("Quantity must be more than 0");
+
+            return;
+        }
+
+        ingredientNames.add(ingredientName);
+
+        ingredientQuantities.add(ingredientQuantity);
+
+        ingredientUnits.add(ingredientUnit);
+
+        updateIngredientList();
+
+        Toast.makeText(
+                act_add_recipe.this,
+                "Ingredient added",
+                Toast.LENGTH_SHORT
+        ).show();
+
+        edit_ingredient_name.setText("");
+        edit_ingredient_quantity.setText("");
+        edit_ingredient_unit.setText("");
+
+        edit_ingredient_name.requestFocus();
+    }
+
+    private void updateIngredientList() {
+
+        if(ingredientNames.isEmpty()) {
+
+            txt_added_ingredients.setText("No ingredients added yet");
+
+            return;
+        }
+
+        StringBuilder ingredientList = new StringBuilder();
+
+        for(int i = 0; i < ingredientNames.size(); i++) {
+
+            ingredientList.append(i + 1)
+                    .append(". ")
+                    .append(ingredientNames.get(i))
+                    .append(" - ")
+                    .append(ingredientQuantities.get(i))
+                    .append(" ")
+                    .append(ingredientUnits.get(i));
+
+            if(i < ingredientNames.size() - 1) {
+
+                ingredientList.append("\n");
+            }
+        }
+
+        txt_added_ingredients.setText(ingredientList.toString());
+    }
+
     private void saveRecipe() {
 
         String recipeName = edit_RecipeName.getText().toString().trim();
-
-        String ingredientsText = edit_RecipeName.getText().toString().trim();
 
         String method = edit_recipe_method.getText().toString().trim();
 
@@ -72,9 +189,13 @@ public class act_add_recipe extends AppCompatActivity {
         }
 
         // Searching for ingredients
-        if(ingredientsText.isEmpty()) {
+        if(ingredientNames.isEmpty()) {
 
-            edit_recipe_ingred.setError("Please enter ingredients");
+            Toast.makeText(
+                    act_add_recipe.this,
+                    "Please add at least one ingredient",
+                    Toast.LENGTH_SHORT
+            ).show();
 
             return;
         }
@@ -85,88 +206,6 @@ public class act_add_recipe extends AppCompatActivity {
             edit_recipe_method.setError("Please enter cooking steps");
 
             return;
-        }
-
-        ArrayList<String> ingredientNames = new ArrayList<>();
-
-        ArrayList<Double> ingredientQuantities = new ArrayList<>();
-
-        ArrayList<String> ingredientUnits = new ArrayList<>();
-
-        // Separate each ingredient line
-        String[] ingredientLines = ingredientsText.split("\n");
-
-        for(int i = 0; i < ingredientLines.length; i++) {
-
-            String line = ingredientLines[i].trim();
-
-            if(!line.isEmpty()) {
-
-                String[] ingredientParts = line.split(",");
-
-                if(ingredientParts.length != 3) {
-
-                    edit_recipe_ingred.setError(
-                            "Use: Name, Quantity, Unit on line " + (i + 1)
-                    );
-
-                    return;
-                }
-
-                String ingredientName = ingredientParts[0].trim();
-
-                String quantityText = ingredientParts[1].trim();
-
-                String ingredientUnit = ingredientParts[2].trim();
-
-                double ingredientQuantity;
-
-                try {
-
-                    ingredientQuantity = Double.parseDouble(quantityText);
-
-                } catch(NumberFormatException e) {
-
-                    edit_recipe_ingred.setError(
-                            "Invalid quantity on line " + (i + 1)
-                    );
-
-                    return;
-                }
-
-                if(ingredientName.isEmpty()) {
-
-                    edit_recipe_ingred.setError(
-                            "Ingredient name missing on line " + (i + 1)
-                    );
-
-                    return;
-                }
-
-                if(ingredientQuantity <= 0) {
-
-                    edit_recipe_ingred.setError(
-                            "Quantity must be more than 0 on line " + (i + 1)
-                    );
-
-                    return;
-                }
-
-                if(ingredientUnit.isEmpty()) {
-
-                    edit_recipe_ingred.setError(
-                            "Unit missing on line " + (i + 1)
-                    );
-
-                    return;
-                }
-
-                ingredientNames.add(ingredientName);
-
-                ingredientQuantities.add(ingredientQuantity);
-
-                ingredientUnits.add(ingredientUnit);
-            }
         }
 
         long result = databaseHelper.addCustomRecipe(
@@ -187,7 +226,7 @@ public class act_add_recipe extends AppCompatActivity {
 
             Intent intent = new Intent(
                     act_add_recipe.this,
-                    HomePgActivity.class
+                    RecipesAct.class
             );
 
             startActivity(intent);

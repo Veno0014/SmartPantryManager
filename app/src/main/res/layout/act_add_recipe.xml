@@ -64,22 +64,79 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Enter one ingredient per line: Name, Quantity, Unit"
+            android:text="Enter each ingredient below and select Add Ingredient"
             android:textColor="#666666"
             android:textSize="13sp" />
 
-        <!-- Entering recipe ingredients -->
+        <!-- Entering ingredient name -->
         <EditText
-            android:id="@+id/editRecipeIngredients"
+            android:id="@+id/editIngredientName"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginTop="8dp"
-            android:gravity="top|start"
-            android:hint="chicken,500,g&#10;onion,1,pieces&#10;rice,300,g"
-            android:inputType="textMultiLine"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:hint="Ingredient Name"
+            android:inputType="textCapWords"
             android:padding="12dp"
             android:textColor="#000000"
             android:textColorHint="#777777" />
+
+        <!-- Entering ingredient quantity -->
+        <EditText
+            android:id="@+id/editIngredientQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:hint="Quantity"
+            android:inputType="numberDecimal"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#777777" />
+
+        <!-- Entering ingredient unit -->
+        <EditText
+            android:id="@+id/editIngredientUnit"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:hint="Unit example kg or ml"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#777777" />
+
+        <!-- Add ingredient to recipe -->
+        <Button
+            android:id="@+id/btnAddRecipeIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#6D4C41"
+            android:text="Add Ingredient"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <!-- Added ingredients heading -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Added Ingredients"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Shows ingredients added to recipe -->
+        <TextView
+            android:id="@+id/txtAddedIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#F5F5F5"
+            android:minHeight="80dp"
+            android:padding="12dp"
+            android:text="No ingredients added yet"
+            android:textColor="#666666"
+            android:textSize="14sp" />
 
         <!-- Cooking steps heading -->
         <TextView
@@ -98,7 +155,7 @@
             android:layout_height="200dp"
             android:layout_marginTop="8dp"
             android:gravity="top|start"
-            android:hint="1. Prepare the ingredients.&#10;2. Cook the chicken.&#10;3. Add the vegetables.&#10;4. Serve."
+            android:hint="1. Prepare the ingredients.&#10;2. Cook the ingredients.&#10;3. Add the vegetables.&#10;4. Serve."
             android:inputType="textMultiLine"
             android:padding="12dp"
             android:textColor="#000000"
@@ -110,7 +167,6 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="25dp"
-            android:layout_marginBottom="30dp"
             android:backgroundTint="#6D4C41"
             android:text="Save Recipe"
             android:textColor="#FFFFFF"
@@ -127,6 +183,7 @@
             android:text="Cancel"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
+
     </LinearLayout>
 
 </ScrollView>

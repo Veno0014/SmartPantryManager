@@ -365,11 +365,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long recipe3 = addRecipe(
                 db,
                 "Tikka Chicken",
-                "Mix the chicken with yoghurt and tikka spice. Allow the chicken to marinate and then cook until fully cooked and golden."
+                "Light charcoal and marinate chicken in masala then place over charcoal."
         );
 
         adding_ingredient(db, recipe3, "chicken", 500, "g");
-        adding_ingredient(db, recipe3, "yoghurt", 150, "ml");
+        adding_ingredient(db, recipe3, "masala", 150, "ml");
         adding_ingredient(db, recipe3, "tikka spice", 20, "g");
 
         // Phutu and Mutton Curry
@@ -777,7 +777,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return quantity;
     }
 
-    // Adding Custom Recipe
+    // Adding new recipe
     public long addCustomRecipe(String name, String method, ArrayList<String> ingredientNames, ArrayList<Double> quantities, ArrayList<String> units) {
 
         SQLiteDatabase db = this.getWritableDatabase();
